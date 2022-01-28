@@ -2,4 +2,4 @@
 *.log
 
 #ignore all exe files
-*.exe
+*.exe   
