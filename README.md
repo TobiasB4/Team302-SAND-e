@@ -1,2 +1,2 @@
 # Team302-SAND-e
-IGEN 330: Team 302 Project SAND-e
+SAND-e is a sustainable and autonomous small beach waste collection robot.
