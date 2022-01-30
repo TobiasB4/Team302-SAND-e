@@ -1,7 +1,6 @@
 #include "../include/main.h"
+#include "../include/pathfinding.h"
 
 int main(){
-    std::cout<<"Hello World" << std::endl;
-
     return 0;
 }
