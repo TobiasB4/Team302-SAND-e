@@ -26,3 +26,6 @@ bld/
 CMakeFiles/
 CMakeCache.txt
 Makefile
+
+#ignore vscode
+.vscode
