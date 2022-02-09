@@ -50,6 +50,7 @@ class PathFinding{
     private:
     public:
 
+    static inline long double ToRadian(long double num){return num * M_PI / 180;}
     static long double CalcDistance(MainRobot::Coordinates gps1, MainRobot::Coordinates gps2);
 };
 
