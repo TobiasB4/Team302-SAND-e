@@ -1,5 +1,4 @@
 #include "robot.hpp"
-#include "definition.hpp"
 
 void MainRobot::Robot::UpdateCurrentGPS(Coordinates newGPS){
     this->GPSCurr = newGPS;
