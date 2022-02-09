@@ -3,10 +3,13 @@
 
 #ignore all exe files
 *.exe   
+*.out
+SAND-e
 
 #ignore all cmake files
 
 *.cmake
+*.a
 
 # Build results
 [Dd]ebug/
@@ -29,3 +32,4 @@ Makefile
 
 #ignore vscode
 .vscode
+
