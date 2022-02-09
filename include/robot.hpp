@@ -1,6 +1,6 @@
 #pragma once
 #include <math.h>
-
+#include <vector>
 
 namespace MainRobot{
 
@@ -8,25 +8,27 @@ namespace MainRobot{
         long double latitude;
         long double longitude;
         long double altitude;
-        long double cartesian_x;
-        long double cartesian_y;
-        long double cartesian_z;
+
 
         Coordinates(long double latitude, long double longitude, long double altitude){
             this->latitude = latitude;
             this->longitude = longitude;
             this->altitude = altitude;
-
-            this->cartesian_x = ToCartesianX();
-            this->cartesian_y = ToCartesianY();
-            this->cartesian_z = ToCartesianZ();
         }
 
-        private:
-            inline long double ToCartesianX(){return Autonomous::EARTH_RADIUS * cos(this->latitude) * cos(this->latitude);}
-            inline long double ToCartesianY(){return Autonomous::EARTH_RADIUS * cos(this->latitude) * sin(this->longitude);}
-            inline long double ToCartesianZ(){return Autonomous::EARTH_RADIUS * sin(this->latitude);}
+    };
 
+    struct Cartesian{
+        long double x;
+        long double y;
+        long double z;
+
+        Cartesian(Coordinates coordinate){
+
+        }
+        inline long double ToCartesianX(long double latitude, long double longitude){return Autonomous::EARTH_RADIUS * cos(latitude) * cos(longitude);}
+        inline long double ToCartesianY(long double latitude, long double longitutde){return Autonomous::EARTH_RADIUS * cos(latitude) * sin(longitude);}
+        inline long double ToCartesianZ(long double latitude){return Autonomous::EARTH_RADIUS * sin(latitude);}
     };
     
     class Robot{
