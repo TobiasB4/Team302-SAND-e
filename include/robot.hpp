@@ -24,7 +24,9 @@ namespace MainRobot{
         long double z;
 
         Cartesian(Coordinates coordinate){
-
+            this->x = ToCartesianX(coordinate.latitude, coordinate.longitude);
+            this->y = ToCartesianY(coordinate.latitude, coordinate.longitude);
+            this->z = ToCartesianZ(coordinate.latitude);
         }
         inline long double ToCartesianX(long double latitude, long double longitude){return Autonomous::EARTH_RADIUS * cos(latitude) * cos(longitude);}
         inline long double ToCartesianY(long double latitude, long double longitutde){return Autonomous::EARTH_RADIUS * cos(latitude) * sin(longitude);}
