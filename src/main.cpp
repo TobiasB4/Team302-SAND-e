@@ -1,4 +1,4 @@
-#include "../include/main.hpp"
+#include "../include/robot.hpp"
 #include "../include/pathfinding.hpp"
 
 int main(){
