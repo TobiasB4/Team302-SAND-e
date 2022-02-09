@@ -50,7 +50,7 @@ class PathFinding{
     private:
     public:
 
-    long double CalcDistance(MainRobot::Coordinates gps1, MainRobot::Coordinates gps2);
+    static long double CalcDistance(MainRobot::Coordinates gps1, MainRobot::Coordinates gps2);
 };
 
 class ObstacleDetection{

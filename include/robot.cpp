@@ -27,11 +27,15 @@ long double Autonomous::PathFinding::CalcDistance(MainRobot::Coordinates gps1, M
     long double distance_long = long2 - long1;
     long double distance_lat = lat2 - lat1;
 
-    long double distance = pow(sin(distance_long / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(distance_long / 2), 2);
+    long double distance = pow(sin(distance_lat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(distance_long / 2), 2);
 
+    distance = 2 * asin(sqrt(distance));
     distance *= EARTH_RADIUS;
 
-    return distance;
+    // Convert to meters
+    distance *= 1000;
+
+    return abs(distance);
 }
 
 
