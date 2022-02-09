@@ -36,9 +36,30 @@ namespace MainRobot{
             void UpdateNextGPS(Coordinates newGPS);
             Coordinates GetCurrentGPS();
             Coordinates GetNextGPS();
-
-            long double CalcDistance(Coordinates gps1, Coordinates gps2);
     };
 
+
+};
+
+namespace Autonomous{
+
+const double EARTH_RADIUS = 6378.8;
+
+class PathFinding{
+    private:
+    public:
+
+    long double CalcDistance(MainRobot::Coordinates gps1, MainRobot::Coordinates gps2);
+};
+
+class ObstacleDetection{
+    private:
+    public:
+};
+
+class MotorControl{
+    private:
+    public:
+};
 
 };

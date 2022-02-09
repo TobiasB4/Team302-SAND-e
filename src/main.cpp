@@ -1,5 +1,6 @@
 #include "../include/robot.hpp"
 #include "../include/pathfinding.hpp"
+#include <iostream>
 
 int main(){
     std::cout<<"Hello World!" << std::endl;

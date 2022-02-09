@@ -17,7 +17,7 @@ MainRobot::Coordinates MainRobot::Robot::GetNextGPS(){
     return this->GPSNext;
 }
 
-long double MainRobot::Robot::CalcDistance(Coordinates gps1, Coordinates gps2){
+long double Autonomous::PathFinding::CalcDistance(MainRobot::Coordinates gps1, MainRobot::Coordinates gps2){
     long double lat1 = gps1.latitude / (180/M_PI);
     long double long1 = gps1.longitude / (180/M_PI);
     long double lat2 = gps2.latitude / (180/M_PI);
@@ -33,3 +33,5 @@ long double MainRobot::Robot::CalcDistance(Coordinates gps1, Coordinates gps2){
 
     return distance;
 }
+
+
