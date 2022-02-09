@@ -32,4 +32,5 @@ Makefile
 
 #ignore vscode
 .vscode
-
+#ignore testing folder
+test/
