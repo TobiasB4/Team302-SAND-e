@@ -19,10 +19,10 @@ MainRobot::Coordinates MainRobot::Robot::GetNextGPS(){
 
 // Calculates the distance between two Coordinates
 long double Autonomous::PathFinding::CalcDistance(MainRobot::Coordinates gps1, MainRobot::Coordinates gps2){
-    long double lat1 = gps1.latitude / (180/M_PI);
-    long double long1 = gps1.longitude / (180/M_PI);
-    long double lat2 = gps2.latitude / (180/M_PI);
-    long double long2 = gps2.longitude / (180/M_PI);
+    long double lat1 = ToRadian(gps1.latitude);
+    long double long1 = ToRadian(gps1.longitude);
+    long double lat2 = ToRadian(gps2.latitude);
+    long double long2 = ToRadian(gps2.longitude);
 
     // Calculates the distance between point 1 and point 2 using Haversine Formula
     long double distance_long = long2 - long1;

@@ -8,13 +8,24 @@ namespace MainRobot{
         long double latitude;
         long double longitude;
         long double altitude;
+        long double cartesian_x;
+        long double cartesian_y;
+        long double cartesian_z;
 
         Coordinates(long double latitude, long double longitude, long double altitude){
             this->latitude = latitude;
             this->longitude = longitude;
             this->altitude = altitude;
+
+            this->cartesian_x = ToCartesianX();
+            this->cartesian_y = ToCartesianY();
+            this->cartesian_z = ToCartesianZ();
         }
 
+        private:
+            inline long double ToCartesianX(){return Autonomous::EARTH_RADIUS * cos(this->latitude) * cos(this->latitude);}
+            inline long double ToCartesianY(){return Autonomous::EARTH_RADIUS * cos(this->latitude) * sin(this->longitude);}
+            inline long double ToCartesianZ(){return Autonomous::EARTH_RADIUS * sin(this->latitude);}
 
     };
     
