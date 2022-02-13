@@ -16,4 +16,13 @@ namespace GNSS {
     void Message(uint8_t packet_id, uint8_t* payload, size_t payload_length);
 }
 
+class UbloxGnss {
+    public: 
+        // Begin I2C, w/ default I2C address
+        
+
+    private:
+
+};
+
 #endif
