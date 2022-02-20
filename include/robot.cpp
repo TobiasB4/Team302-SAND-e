@@ -1,5 +1,22 @@
 #include "robot.hpp"
 
+list<string> Map::ExtractFile(string pathName){
+    list<::string> res;
+    std::fstream f;
+    f.open(pathName, std::ios::in);
+    if(f.is_open()){
+        string tmp;
+        string removeableChar = "[ ]\n";
+        while (std::getline(f,tmp)){
+            for(char c: removeableChar){
+                tmp.erase(remove(tmp.begin() , tmp.end() , c), tmp.end());
+            }
+            res.push_back(tmp);
+        }
+        f.close();
+    }
+    return res;
+}
 
 void MainRobot::Robot::UpdateCurrentGPS(Map::Coordinates newGPS){
     this->GPSCurr = newGPS;

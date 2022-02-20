@@ -1,13 +1,17 @@
 #pragma once
+#include <iostream>
 #include <math.h>
-#include <vector>
-
+#include <list>
+#include <string>
+#include <fstream>
+#include <algorithm>
+using std::list;
+using std::string;
 #define EARTH_RADIUS 6378.8
 
 namespace Map{
 
     struct Coordinates{
-        public:
         long double latitude;
         long double longitude;
         long double altitude;
@@ -36,6 +40,7 @@ namespace Map{
         inline long double ToCartesianZ(long double latitude){return EARTH_RADIUS * sin(latitude);}
     };
 
+    list<string> ExtractFile(string pathName);
 };
 
 namespace Autonomous{
