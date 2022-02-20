@@ -10,6 +10,7 @@ SAND-e
 
 *.cmake
 *.a
+*.json
 
 # Build results
 [Dd]ebug/

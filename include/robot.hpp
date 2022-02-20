@@ -2,9 +2,12 @@
 #include <math.h>
 #include <vector>
 
-namespace MainRobot{
+#define EARTH_RADIUS 6378.8
 
-        struct Coordinates{
+namespace Map{
+
+    struct Coordinates{
+        public:
         long double latitude;
         long double longitude;
         long double altitude;
@@ -28,45 +31,21 @@ namespace MainRobot{
             this->y = ToCartesianY(coordinate.latitude, coordinate.longitude);
             this->z = ToCartesianZ(coordinate.latitude);
         }
-        inline long double ToCartesianX(long double latitude, long double longitude){return Autonomous::EARTH_RADIUS * cos(latitude) * cos(longitude);}
-        inline long double ToCartesianY(long double latitude, long double longitude){return Autonomous::EARTH_RADIUS * cos(latitude) * sin(longitude);}
-        inline long double ToCartesianZ(long double latitude){return Autonomous::EARTH_RADIUS * sin(latitude);}
+        inline long double ToCartesianX(long double latitude, long double longitude){return EARTH_RADIUS * cos(latitude) * cos(longitude);}
+        inline long double ToCartesianY(long double latitude, long double longitude){return EARTH_RADIUS * cos(latitude) * sin(longitude);}
+        inline long double ToCartesianZ(long double latitude){return EARTH_RADIUS * sin(latitude);}
     };
-    
-    class Robot{
-        private:
-            Coordinates GPSCurr;
-            Coordinates GPSNext;
-            const float WIDTH;
-            const float LENGTH;
-        public:
-
-            Robot(float width, float length,Coordinates gps1, Coordinates gps2):
-            GPSCurr{gps1}
-            ,GPSNext{gps2}
-            ,WIDTH{width}
-            ,LENGTH{length}{}
-
-
-            void UpdateCurrentGPS(Coordinates newGPS);
-            void UpdateNextGPS(Coordinates newGPS);
-            Coordinates GetCurrentGPS();
-            Coordinates GetNextGPS();
-    };
-
 
 };
 
 namespace Autonomous{
-
-const double EARTH_RADIUS = 6378.8;
 
 class PathFinding{
     private:
     public:
 
     static inline long double ToRadian(long double num){return num * M_PI / 180;}
-    static long double CalcDistance(MainRobot::Coordinates gps1, MainRobot::Coordinates gps2);
+    static long double CalcDistance(Map::Coordinates gps1, Map::Coordinates gps2);
 };
 
 class ObstacleDetection{
@@ -78,5 +57,26 @@ class MotorControl{
     private:
     public:
 };
+
+};
+
+namespace MainRobot{
+    
+    class Robot{
+
+    private:
+        Map::Coordinates GPSCurr;
+        Map::Coordinates GPSNext;
+        const float WIDTH;
+        const float LENGTH;
+
+    public:
+        Robot(float width, float length, Map::Coordinates gps1, Map::Coordinates gps2) : GPSCurr{gps1}, GPSNext{gps2}, WIDTH{width}, LENGTH{length} {}
+
+        void UpdateCurrentGPS(Map::Coordinates newGPS);
+        void UpdateNextGPS(Map::Coordinates newGPS);
+        Map::Coordinates GetCurrentGPS();
+        Map::Coordinates GetNextGPS();
+    };
 
 };

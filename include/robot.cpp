@@ -1,24 +1,24 @@
 #include "robot.hpp"
 
 
-void MainRobot::Robot::UpdateCurrentGPS(Coordinates newGPS){
+void MainRobot::Robot::UpdateCurrentGPS(Map::Coordinates newGPS){
     this->GPSCurr = newGPS;
 }
 
-void MainRobot::Robot::UpdateNextGPS(Coordinates newGPS){
+void MainRobot::Robot::UpdateNextGPS(Map::Coordinates newGPS){
     this->GPSNext = newGPS;
 }
 
-MainRobot::Coordinates MainRobot::Robot::GetCurrentGPS(){
+Map::Coordinates MainRobot::Robot::GetCurrentGPS(){
     return this->GPSCurr;
 }
 
-MainRobot::Coordinates MainRobot::Robot::GetNextGPS(){
+Map::Coordinates MainRobot::Robot::GetNextGPS(){
     return this->GPSNext;
 }
 
 // Calculates the distance between two Coordinates
-long double Autonomous::PathFinding::CalcDistance(MainRobot::Coordinates gps1, MainRobot::Coordinates gps2){
+long double Autonomous::PathFinding::CalcDistance(Map::Coordinates gps1, Map::Coordinates gps2){
     long double lat1 = ToRadian(gps1.latitude);
     long double long1 = ToRadian(gps1.longitude);
     long double lat2 = ToRadian(gps2.latitude);
