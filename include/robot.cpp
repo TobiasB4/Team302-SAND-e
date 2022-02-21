@@ -1,9 +1,24 @@
 #include "robot.hpp"
 
-list<string> Map::ExtractFile(string pathName){
-    list<::string> res;
+void Map::Tokenize(string s,long double (&arr)[2] , string del){
+    int start = 0;
+    int end = s.find(del);
+    int count = 0;
+    while (end != -1) {
+        arr[count] = std::stold(s.substr(start, end - start));
+        start = end + del.size();
+        end = s.find(del, start);
+        count++;
+    }
+    arr[count] = std::stold(s.substr(start, end - start));
+}
+
+std::tuple<list<long double>,list<long double>> Map::ExtractFile(string pathName){
+    list<long double> resX,resY;
     std::fstream f;
     f.open(pathName, std::ios::in);
+    string delimiter = ",";
+    long double tempArr[2] = {0,0};
     if(f.is_open()){
         string tmp;
         string removeableChar = "[ ]\n";
@@ -11,11 +26,13 @@ list<string> Map::ExtractFile(string pathName){
             for(char c: removeableChar){
                 tmp.erase(remove(tmp.begin() , tmp.end() , c), tmp.end());
             }
-            res.push_back(tmp);
+            Tokenize(tmp, tempArr, delimiter);
+            resX.push_back(tempArr[0]);
+            resY.push_back(tempArr[1]);
         }
         f.close();
     }
-    return res;
+    return std::make_tuple(resX,resY);
 }
 
 void MainRobot::Robot::UpdateCurrentGPS(Map::Coordinates newGPS){

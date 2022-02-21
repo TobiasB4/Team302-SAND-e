@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <algorithm>
+#include <tuple>
 using std::list;
 using std::string;
 #define EARTH_RADIUS 6378.8
@@ -39,8 +40,8 @@ namespace Map{
         inline long double ToCartesianY(long double latitude, long double longitude){return EARTH_RADIUS * cos(latitude) * sin(longitude);}
         inline long double ToCartesianZ(long double latitude){return EARTH_RADIUS * sin(latitude);}
     };
-
-    list<string> ExtractFile(string pathName);
+    void Tokenize(string s,long double (&arr)[2] , string del = " ");
+    std::tuple<list<long double>,list<long double>> ExtractFile(string pathName);
 };
 
 namespace Autonomous{
