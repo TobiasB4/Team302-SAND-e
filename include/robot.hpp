@@ -1,12 +1,12 @@
 #pragma once
 #include <iostream>
 #include <math.h>
-#include <list>
+#include <vector>
 #include <string>
 #include <fstream>
 #include <algorithm>
 #include <tuple>
-using std::list;
+using std::vector;
 using std::string;
 #define EARTH_RADIUS 6378.8
 
@@ -47,7 +47,7 @@ namespace Map{
 
     // Extracts coordinates from txt file
     // return: Tuple of all x-coordinates and y-coordinates [x,y]
-    std::tuple<list<long double>,list<long double>> ExtractFile(string pathName);
+    std::tuple<vector<long double>,vector<long double>> ExtractFile(string pathName);
 };
 
 namespace Autonomous{
@@ -68,7 +68,9 @@ class PathFinding{
     // return: Array: y=mx+b => {m,b}
     static void LineEquation(Map::Coordinates gps1, Map::Coordinates gps2, long double (&returnArr)[2]);
 
-    static long double FindPeak(list<long double> height, bool reverse = false);
+    // Finds the highest point along coast line and beach line
+    // return: The index of the peak and -1 if not found
+    static int FindPeak(vector<long double> height, bool reverse = false);
 
 };
 

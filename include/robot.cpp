@@ -13,8 +13,8 @@ void Map::Tokenize(string s,long double (&arr)[2] , string del){
     arr[count] = std::stold(s.substr(start, end - start));
 }
 
-std::tuple<list<long double>,list<long double>> Map::ExtractFile(string pathName){
-    list<long double> resX,resY;
+std::tuple<vector<long double>,vector<long double>> Map::ExtractFile(string pathName){
+    vector<long double> resX,resY;
     std::fstream f;
     f.open(pathName, std::ios::in);
     string delimiter = ",";
@@ -80,24 +80,28 @@ void Autonomous::PathFinding::LineEquation(Map::Coordinates gps1, Map::Coordinat
     returnArr[1] = (-returnArr[0])*gps1.latitude+gps1.longitude;
 }
 
-long double Autonomous::PathFinding::FindPeak(list<long double> height, bool reverse){
+int Autonomous::PathFinding::FindPeak(vector<long double> height, bool reverse){
 
     long double max = -(__LDBL_MAX__-1);
     if(reverse){
-        for(list<long double>::reverse_iterator it = height.rbegin(); it != height.rend(); it++){
+        int count = height.size();
+        for(vector<long double>::reverse_iterator it = height.rbegin(); it != height.rend(); it++){
             if(*it < max){
-            return max;
+            return count;
             }
             max = *it;
+            count--;
         }
     }else{
+        int count = -1;
         for(long double h : height){
         if(h < max){
-            return max;
+            return count;
         }
         max = h;
+        count++;
         }
     }
 
-    return max;
+    return -1;
 }
