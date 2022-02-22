@@ -73,4 +73,31 @@ long double Autonomous::PathFinding::CalcDistance(Map::Coordinates gps1, Map::Co
     return abs(distance);
 }
 
+void Autonomous::PathFinding::LineEquation(Map::Coordinates gps1, Map::Coordinates gps2, long double (&returnArr)[2]){
+    // slope value
+    returnArr[0] = (gps2.latitude-gps1.latitude)/(gps2.longitude-gps1.longitude);
+    // y-intercept value
+    returnArr[1] = (-returnArr[0])*gps1.latitude+gps1.longitude;
+}
 
+long double Autonomous::PathFinding::FindPeak(list<long double> height, bool reverse){
+
+    long double max = -(__LDBL_MAX__-1);
+    if(reverse){
+        for(list<long double>::reverse_iterator it = height.rbegin(); it != height.rend(); it++){
+            if(*it < max){
+            return max;
+            }
+            max = *it;
+        }
+    }else{
+        for(long double h : height){
+        if(h < max){
+            return max;
+        }
+        max = h;
+        }
+    }
+
+    return max;
+}
