@@ -40,7 +40,13 @@ namespace Map{
         inline long double ToCartesianY(long double latitude, long double longitude){return EARTH_RADIUS * cos(latitude) * sin(longitude);}
         inline long double ToCartesianZ(long double latitude){return EARTH_RADIUS * sin(latitude);}
     };
+
+    // Splits string into substrings separated by delimiter
+    // return: Array of split substrings
     void Tokenize(string s,long double (&arr)[2] , string del = " ");
+
+    // Extracts coordinates from txt file
+    // return: Tuple of all x-coordinates and y-coordinates [x,y]
     std::tuple<list<long double>,list<long double>> ExtractFile(string pathName);
 };
 
@@ -50,8 +56,18 @@ class PathFinding{
     private:
     public:
 
+    // Converts degrees to radians
+    // return: Radian representation of angle
     static inline long double ToRadian(long double num){return num * M_PI / 180;}
+    
+    // Calculates the distance between two points using the Haversine Formula
+    // return: Absolute value of the distance between two points in meters
     static long double CalcDistance(Map::Coordinates gps1, Map::Coordinates gps2);
+
+    // Calculates the equation of the line between two points
+    // return: Array: y=mx+b => {m,b}
+    static void LineEquation(Map::Coordinates gps1, Map::Coordinates gps2, long double (&returnArr)[2]);
+
 };
 
 class ObstacleDetection{

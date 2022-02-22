@@ -73,4 +73,10 @@ long double Autonomous::PathFinding::CalcDistance(Map::Coordinates gps1, Map::Co
     return abs(distance);
 }
 
+void Autonomous::PathFinding::LineEquation(Map::Coordinates gps1, Map::Coordinates gps2, long double (&returnArr)[2]){
+    // slope value
+    returnArr[0] = (gps2.latitude-gps1.latitude)/(gps2.longitude-gps1.longitude);
+    // y-intercept value
+    returnArr[1] = (-returnArr[0])*gps1.latitude+gps1.longitude;
+}
 
