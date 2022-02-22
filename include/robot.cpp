@@ -80,3 +80,24 @@ void Autonomous::PathFinding::LineEquation(Map::Coordinates gps1, Map::Coordinat
     returnArr[1] = (-returnArr[0])*gps1.latitude+gps1.longitude;
 }
 
+long double Autonomous::PathFinding::FindPeak(list<long double> height, bool reverse){
+
+    long double max = -(__LDBL_MAX__-1);
+    if(reverse){
+        for(list<long double>::reverse_iterator it = height.rbegin(); it != height.rend(); it++){
+            if(*it < max){
+            return max;
+            }
+            max = *it;
+        }
+    }else{
+        for(long double h : height){
+        if(h < max){
+            return max;
+        }
+        max = h;
+        }
+    }
+
+    return max;
+}

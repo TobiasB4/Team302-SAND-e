@@ -68,6 +68,8 @@ class PathFinding{
     // return: Array: y=mx+b => {m,b}
     static void LineEquation(Map::Coordinates gps1, Map::Coordinates gps2, long double (&returnArr)[2]);
 
+    static long double FindPeak(list<long double> height, bool reverse = false);
+
 };
 
 class ObstacleDetection{
