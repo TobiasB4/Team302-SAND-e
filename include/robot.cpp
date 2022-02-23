@@ -51,7 +51,7 @@ Map::Coordinates MainRobot::Robot::GetNextGPS(){
     return this->GPSNext;
 }
 
-// Calculates the distance between two Coordinates
+
 long double Autonomous::PathFinding::CalcDistance(Map::Coordinates gps1, Map::Coordinates gps2){
     long double lat1 = ToRadian(gps1.latitude);
     long double long1 = ToRadian(gps1.longitude);
@@ -64,13 +64,36 @@ long double Autonomous::PathFinding::CalcDistance(Map::Coordinates gps1, Map::Co
 
     long double distance = pow(sin(distance_lat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(distance_long / 2), 2);
 
-    distance = 2 * asin(sqrt(distance));
+    distance = 2 * asin(sqrt(std::min((long double)1,distance)));
     distance *= EARTH_RADIUS;
 
     // Convert to meters
     distance *= 1000;
 
     return abs(distance);
+}
+
+Map::Coordinates Autonomous::PathFinding::CalcPosition(Map::Coordinates source, long double range, long double bearing)
+{
+    long double latA = Autonomous::PathFinding::ToRadian(source.latitude);
+    long double lonA = Autonomous::PathFinding::ToRadian(source.longitude);
+    long double angularDistance = range / EARTH_RADIUS/1000;
+    long double trueCourse = Autonomous::PathFinding::ToRadian(bearing);
+
+    long double lat = asin(
+        sin(latA) * cos(angularDistance) + 
+        cos(latA) * sin(angularDistance) * cos(trueCourse));
+
+    double dlon = atan2(
+        sin(trueCourse) * sin(angularDistance) * cos(latA), 
+        cos(angularDistance) - sin(latA) * sin(lat));
+
+    double lon = (std::fmod((lonA + dlon + M_PI),(2*M_PI))) - M_PI;
+
+    return Map::Coordinates(
+        Autonomous::PathFinding::ToDegree(lat) , 
+        Autonomous::PathFinding::ToDegree(lon), 
+        source.altitude);
 }
 
 void Autonomous::PathFinding::LineEquation(Map::Coordinates gps1, Map::Coordinates gps2, long double (&returnArr)[2]){
@@ -104,4 +127,22 @@ int Autonomous::PathFinding::FindPeak(vector<long double> height, bool reverse){
     }
 
     return -1;
+}
+
+std::tuple<vector<long double>, vector<long double>> Autonomous::PathFinding::SubDivideLine(Map::Coordinates gps1, Map::Coordinates gps2, long double x){
+long double x1 = gps1.latitude;
+long double y1 = gps1.longitude;
+long double x2 = gps2.latitude;
+long double y2 = gps2.longitude;
+int const SLOPE = 0;
+int const INTERCEPT = 1;
+long double slopeIntercept[2] = {0,0};
+
+Autonomous::PathFinding::LineEquation(gps1,gps2,slopeIntercept);
+// Project line onto same axis gps2 (x,y) -> (gps1 x, gps2 y)
+long double projected_x2 = x1;
+long double projected_y2 = y2;
+Map::Coordinates projected_gps2 = Map::Coordinates(projected_x2,projected_y2,0);
+long double subDivision = Autonomous::PathFinding::CalcDistance(gps1,projected_gps2)/x;
+
 }

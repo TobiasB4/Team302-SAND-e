@@ -26,19 +26,14 @@ namespace Map{
 
     };
 
-    struct Cartesian{
-        long double x;
-        long double y;
-        long double z;
+    struct XY_Pair{
+        vector<long double> x = {};
+        vector<long double> y = {};
 
-        Cartesian(Coordinates coordinate){
-            this->x = ToCartesianX(coordinate.latitude, coordinate.longitude);
-            this->y = ToCartesianY(coordinate.latitude, coordinate.longitude);
-            this->z = ToCartesianZ(coordinate.latitude);
+        XY_Pair(vector<long double> X, vector <long double> Y){
+            this->x = X;
+            this->y = Y;
         }
-        inline long double ToCartesianX(long double latitude, long double longitude){return EARTH_RADIUS * cos(latitude) * cos(longitude);}
-        inline long double ToCartesianY(long double latitude, long double longitude){return EARTH_RADIUS * cos(latitude) * sin(longitude);}
-        inline long double ToCartesianZ(long double latitude){return EARTH_RADIUS * sin(latitude);}
     };
 
     // Splits string into substrings separated by delimiter
@@ -59,10 +54,15 @@ class PathFinding{
     // Converts degrees to radians
     // return: Radian representation of angle
     static inline long double ToRadian(long double num){return num * M_PI / 180;}
+    static inline long double ToDegree(long double num){return num * 180 / M_PI;}
     
     // Calculates the distance between two points using the Haversine Formula
     // return: Absolute value of the distance between two points in meters
     static long double CalcDistance(Map::Coordinates gps1, Map::Coordinates gps2);
+
+    // Calculates new longitude value from projected gps coordinate and a point
+    // return: new longitude value
+    static Map::Coordinates CalcPosition(Map::Coordinates source, long double range, long double bearing);
 
     // Calculates the equation of the line between two points
     // return: Array: y=mx+b => {m,b}
@@ -71,6 +71,10 @@ class PathFinding{
     // Finds the highest point along coast line and beach line
     // return: The index of the peak and -1 if not found
     static int FindPeak(vector<long double> height, bool reverse = false);
+
+    // Divide line into subsections of length X meters apart 
+    // return: list of (x,y) pairs along the line
+    static std::tuple<vector<long double>, vector<long double>> SubDivideLine(Map::Coordinates gps1, Map::Coordinates gps2, long double x);
 
 };
 

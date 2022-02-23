@@ -1,10 +1,14 @@
 #include "../include/robot.hpp"
 
 int main(int argc, char *argv[]){
-    vector<long double> resX,resY;
-    std::tie(resX,resY)= Map::ExtractFile("C:\\Users\\TobiB\\Documents\\Project_SAND-e\\Software\\include\\coordinates.txt");
+    Map::XY_Pair pair = Map::XY_Pair({},{});
+    std::tie(pair.x,pair.y)= Map::ExtractFile("C:\\Users\\TobiB\\Documents\\Project_SAND-e\\Software\\include\\coordinates.txt");
     std::cout.precision(20);
-    std::cout << Autonomous::PathFinding::FindPeak(resY) << std::endl;
-    std::cout << Autonomous::PathFinding::FindPeak(resY, true) << std::endl;
+    long double slopeIntercept[2] = {0,0};
+    Map::Coordinates gps1 = Map::Coordinates(pair.x[0], pair.y[0],0);
+    Map::Coordinates gps2 = Map::Coordinates(pair.x[pair.x.size()-1],pair.y[pair.y.size()-1],0);
+    Autonomous::PathFinding::LineEquation(gps1,gps2,slopeIntercept);
+    Map::Coordinates projected_gps2 = Autonomous::PathFinding::CalcPosition(gps1,(long double)5,(long double)90);
+    std::cout << Autonomous::PathFinding::CalcDistance(gps1,projected_gps2) << std::endl;
     return 0;
 }
