@@ -55,14 +55,19 @@ class PathFinding{
     // return: Radian representation of angle
     static inline long double ToRadian(long double num){return num * M_PI / 180;}
     static inline long double ToDegree(long double num){return num * 180 / M_PI;}
+    static inline long double Round_12(long double num){return floor(num*1e12+0.5)/1e12;}
     
     // Calculates the distance between two points using the Haversine Formula
     // return: Absolute value of the distance between two points in meters
     static long double CalcDistance(Map::Coordinates gps1, Map::Coordinates gps2);
 
     // Calculates new longitude value from projected gps coordinate and a point
-    // return: new longitude value
+    // return: new coordinates for the new position
     static Map::Coordinates CalcPosition(Map::Coordinates source, long double range, long double bearing);
+
+    // Calculates bearing between two points
+    // return: Bearing from source to destination in degrees
+    static long double CalcBearing(Map::Coordinates source, Map::Coordinates destination);
 
     // Calculates the equation of the line between two points
     // return: Array: y=mx+b => {m,b}

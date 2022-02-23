@@ -84,16 +84,30 @@ Map::Coordinates Autonomous::PathFinding::CalcPosition(Map::Coordinates source, 
         sin(latA) * cos(angularDistance) + 
         cos(latA) * sin(angularDistance) * cos(trueCourse));
 
-    double dlon = atan2(
+    long double dlon = lonA + atan2(
         sin(trueCourse) * sin(angularDistance) * cos(latA), 
         cos(angularDistance) - sin(latA) * sin(lat));
 
-    double lon = (std::fmod((lonA + dlon + M_PI),(2*M_PI))) - M_PI;
+    long double lon = (std::fmod((lonA + dlon + (long double)M_PI),(long double)(2.*M_PI)))- (long double)M_PI;
 
     return Map::Coordinates(
         Autonomous::PathFinding::ToDegree(lat) , 
         Autonomous::PathFinding::ToDegree(lon), 
         source.altitude);
+}
+
+long double Autonomous::PathFinding::CalcBearing(Map::Coordinates source, Map::Coordinates destination){
+    long double theta1 = ToRadian(source.latitude);
+    long double theta2 = ToRadian(destination.latitude);
+    long double delta1 = ToRadian(destination.latitude-source.latitude);
+    long double delta2 = ToRadian(destination.longitude-source.longitude);
+
+    long double y = sin(delta2) * cos(theta2);
+    long double x = cos(theta1)*sin(theta2) - sin(theta1)*cos(theta2)*cos(delta2);
+    long double bearing = atan2(x,y);
+    bearing = std::fmod((bearing + (long double)(2.*M_PI)),(long double)(2.*M_PI));
+
+    return ToDegree(bearing);
 }
 
 void Autonomous::PathFinding::LineEquation(Map::Coordinates gps1, Map::Coordinates gps2, long double (&returnArr)[2]){
