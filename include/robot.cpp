@@ -13,8 +13,8 @@ void Map::Tokenize(string s,long double (&arr)[2] , string del){
     arr[count] = std::stold(s.substr(start, end - start));
 }
 
-std::tuple<vector<long double>,vector<long double>> Map::ExtractFile(string pathName){
-    vector<long double> resX,resY;
+vector<Map::Coordinates> Map::ExtractFile(string pathName){
+    vector<Map::Coordinates> gps;
     std::fstream f;
     f.open(pathName, std::ios::in);
     string delimiter = ",";
@@ -27,12 +27,11 @@ std::tuple<vector<long double>,vector<long double>> Map::ExtractFile(string path
                 tmp.erase(remove(tmp.begin() , tmp.end() , c), tmp.end());
             }
             Tokenize(tmp, tempArr, delimiter);
-            resX.push_back(tempArr[0]);
-            resY.push_back(tempArr[1]);
+            gps.push_back(Map::Coordinates(tempArr[0], tempArr[1], 0.L));
         }
         f.close();
     }
-    return std::make_tuple(resX,resY);
+    return gps;
 }
 
 void MainRobot::Robot::UpdateCurrentGPS(Map::Coordinates newGPS){
@@ -143,20 +142,20 @@ int Autonomous::PathFinding::FindPeak(vector<long double> height, bool reverse){
     return -1;
 }
 
-std::tuple<vector<long double>, vector<long double>> Autonomous::PathFinding::SubDivideLine(Map::Coordinates gps1, Map::Coordinates gps2, long double x){
-long double x1 = gps1.latitude;
-long double y1 = gps1.longitude;
-long double x2 = gps2.latitude;
-long double y2 = gps2.longitude;
+Map::XY_Pair Autonomous::PathFinding::SubDivideLine(Map::Coordinates gps1, Map::Coordinates gps2, long double const SUBDIVISION){
 int const SLOPE = 0;
 int const INTERCEPT = 1;
 long double slopeIntercept[2] = {0,0};
 
 Autonomous::PathFinding::LineEquation(gps1,gps2,slopeIntercept);
-// Project line onto same axis gps2 (x,y) -> (gps1 x, gps2 y)
-long double projected_x2 = x1;
-long double projected_y2 = y2;
-Map::Coordinates projected_gps2 = Map::Coordinates(projected_x2,projected_y2,0);
-long double subDivision = Autonomous::PathFinding::CalcDistance(gps1,projected_gps2)/x;
+Map::XY_Pair result = Map::XY_Pair({gps1}, slopeIntercept[0], slopeIntercept[1]);
 
+long double const bearing = Autonomous::PathFinding::CalcBearing(gps1, gps2);
+int count = 0;
+for (long double distance = Autonomous::PathFinding::CalcDistance(gps1, gps2); distance > 0; distance-SUBDIVISION, count++){
+    Map::Coordinates newCoord = Autonomous::PathFinding::CalcPosition(Map::Coordinates(result.gps[count].latitude, result.gps[count].longitude, 0), SUBDIVISION, bearing);
+    result.gps.push_back(newCoord);
+}
+
+return result;
 }

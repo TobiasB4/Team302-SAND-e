@@ -8,7 +8,7 @@
 #include <tuple>
 using std::vector;
 using std::string;
-#define EARTH_RADIUS 6378.8
+#define EARTH_RADIUS 6378.8 // in km
 
 namespace Map{
 
@@ -27,12 +27,13 @@ namespace Map{
     };
 
     struct XY_Pair{
-        vector<long double> x = {};
-        vector<long double> y = {};
+        vector<Map::Coordinates> gps = {};
+        long double slopeIntercept[2];
 
-        XY_Pair(vector<long double> X, vector <long double> Y){
-            this->x = X;
-            this->y = Y;
+        XY_Pair(vector<Map::Coordinates> coordinates, long double slope = NULL, long double y_intercept = NULL){
+            this->gps = coordinates;
+            this->slopeIntercept[0] = slope;
+            this->slopeIntercept[1] = y_intercept;
         }
     };
 
@@ -42,7 +43,7 @@ namespace Map{
 
     // Extracts coordinates from txt file
     // return: Tuple of all x-coordinates and y-coordinates [x,y]
-    std::tuple<vector<long double>,vector<long double>> ExtractFile(string pathName);
+    vector<Map::Coordinates> ExtractFile(string pathName);
 };
 
 namespace Autonomous{
@@ -79,7 +80,7 @@ class PathFinding{
 
     // Divide line into subsections of length X meters apart 
     // return: list of (x,y) pairs along the line
-    static std::tuple<vector<long double>, vector<long double>> SubDivideLine(Map::Coordinates gps1, Map::Coordinates gps2, long double x);
+    Map::XY_Pair SubDivideLine(Map::Coordinates gps1, Map::Coordinates gps2, long double x);
 
 };
 
