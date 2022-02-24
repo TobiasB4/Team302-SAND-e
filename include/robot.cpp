@@ -76,18 +76,19 @@ Map::Coordinates Autonomous::PathFinding::CalcPosition(Map::Coordinates source, 
 {
     long double latA = Autonomous::PathFinding::ToRadian(source.latitude);
     long double lonA = Autonomous::PathFinding::ToRadian(source.longitude);
-    long double angularDistance = range / EARTH_RADIUS/1000;
+    long double angularDistance = range / EARTH_RADIUS / 1000;
     long double trueCourse = Autonomous::PathFinding::ToRadian(bearing);
 
     long double lat = asin(
         sin(latA) * cos(angularDistance) + 
         cos(latA) * sin(angularDistance) * cos(trueCourse));
 
-    long double dlon = lonA + atan2(
+    long double lon = lonA + atan2(
         sin(trueCourse) * sin(angularDistance) * cos(latA), 
         cos(angularDistance) - sin(latA) * sin(lat));
 
-    long double lon = (std::fmod((lonA + dlon + (long double)M_PI),(long double)(2.*M_PI)))- (long double)M_PI;
+    //Not using this seems to fix any problems with bearing not sure why...
+    //long double lon = (std::fmod((lonA + dlon + (long double)M_PI),(long double)(2.*M_PI)))- (long double)M_PI;
 
     return Map::Coordinates(
         Autonomous::PathFinding::ToDegree(lat) , 
@@ -103,10 +104,11 @@ long double Autonomous::PathFinding::CalcBearing(Map::Coordinates source, Map::C
 
     long double y = sin(delta2) * cos(theta2);
     long double x = cos(theta1)*sin(theta2) - sin(theta1)*cos(theta2)*cos(delta2);
-    long double bearing = atan2(x,y);
-    bearing = std::fmod((bearing + (long double)(2.*M_PI)),(long double)(2.*M_PI));
+    long double bearing = atan2(y,x);
+    bearing = ToDegree(bearing);
+    bearing = std::fmod((bearing + 360),360.L);
 
-    return ToDegree(bearing);
+    return bearing;
 }
 
 void Autonomous::PathFinding::LineEquation(Map::Coordinates gps1, Map::Coordinates gps2, long double (&returnArr)[2]){
@@ -152,7 +154,7 @@ Map::XY_Pair result = Map::XY_Pair({gps1}, slopeIntercept[0], slopeIntercept[1])
 
 long double const bearing = Autonomous::PathFinding::CalcBearing(gps1, gps2);
 int count = 0;
-for (long double distance = Autonomous::PathFinding::CalcDistance(gps1, gps2); distance > 0; distance-SUBDIVISION, count++){
+for (long double distance = Autonomous::PathFinding::CalcDistance(gps1, gps2); distance > 0; distance-=SUBDIVISION, count++){
     Map::Coordinates newCoord = Autonomous::PathFinding::CalcPosition(Map::Coordinates(result.gps[count].latitude, result.gps[count].longitude, 0), SUBDIVISION, bearing);
     result.gps.push_back(newCoord);
 }

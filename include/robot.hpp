@@ -30,7 +30,7 @@ namespace Map{
         vector<Map::Coordinates> gps = {};
         long double slopeIntercept[2];
 
-        XY_Pair(vector<Map::Coordinates> coordinates, long double slope = NULL, long double y_intercept = NULL){
+        XY_Pair(vector<Map::Coordinates> coordinates, long double slope = 0.L, long double y_intercept = 0.L){
             this->gps = coordinates;
             this->slopeIntercept[0] = slope;
             this->slopeIntercept[1] = y_intercept;
@@ -80,7 +80,7 @@ class PathFinding{
 
     // Divide line into subsections of length X meters apart 
     // return: list of (x,y) pairs along the line
-    Map::XY_Pair SubDivideLine(Map::Coordinates gps1, Map::Coordinates gps2, long double x);
+    static Map::XY_Pair SubDivideLine(Map::Coordinates gps1, Map::Coordinates gps2, long double x);
 
 };
 
