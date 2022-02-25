@@ -120,7 +120,7 @@ void Autonomous::PathFinding::LineEquation(Map::Coordinates gps1, Map::Coordinat
 
 int Autonomous::PathFinding::FindPeak(vector<long double> height, bool reverse){
 
-    long double max = -(__LDBL_MAX__-1);
+    long double max = -(__LDBL_MAX__-10);
     if(reverse){
         int count = height.size();
         for(vector<long double>::reverse_iterator it = height.rbegin(); it != height.rend(); it++){
@@ -145,19 +145,51 @@ int Autonomous::PathFinding::FindPeak(vector<long double> height, bool reverse){
 }
 
 Map::XY_Pair Autonomous::PathFinding::SubDivideLine(Map::Coordinates gps1, Map::Coordinates gps2, long double const SUBDIVISION){
-int const SLOPE = 0;
-int const INTERCEPT = 1;
-long double slopeIntercept[2] = {0,0};
+    long double slopeIntercept[2] = {0,0};
+    Autonomous::PathFinding::LineEquation(gps1,gps2,slopeIntercept);
+    Map::XY_Pair result = Map::XY_Pair({gps1}, slopeIntercept[0], slopeIntercept[1]);
 
-Autonomous::PathFinding::LineEquation(gps1,gps2,slopeIntercept);
-Map::XY_Pair result = Map::XY_Pair({gps1}, slopeIntercept[0], slopeIntercept[1]);
+    long double const bearing = Autonomous::PathFinding::CalcBearing(gps1, gps2);
 
-long double const bearing = Autonomous::PathFinding::CalcBearing(gps1, gps2);
-int count = 0;
-for (long double distance = Autonomous::PathFinding::CalcDistance(gps1, gps2); distance > 0; distance-=SUBDIVISION, count++){
-    Map::Coordinates newCoord = Autonomous::PathFinding::CalcPosition(Map::Coordinates(result.gps[count].latitude, result.gps[count].longitude, 0), SUBDIVISION, bearing);
-    result.gps.push_back(newCoord);
+    //Create all the points along the line gps1->gps2
+    int count = 0;
+    for (long double distance = Autonomous::PathFinding::CalcDistance(gps1, gps2); distance > 0; distance-=SUBDIVISION, count++){
+        Map::Coordinates newCoord = Autonomous::PathFinding::CalcPosition(Map::Coordinates(result.gps[count].latitude, result.gps[count].longitude, 0), SUBDIVISION, bearing);
+        if(newCoord.longitude > gps2.longitude){
+        }else{
+            result.gps.push_back(newCoord);
+        }      
+    }
+
+    //Add last point
+    result.gps.push_back(gps2);
+    return result;
 }
 
-return result;
+Map::XY_Pair Autonomous::PathFinding::CreatePoints(Map::Coordinates source, Map::Coordinates vertex1, Map::Coordinates vertex2, long double const SUBDIVISION){
+    Map::XY_Pair result = Map::XY_Pair({});
+    Map::XY_Pair sourceLine = Autonomous::PathFinding::SubDivideLine(source,vertex1, SUBDIVISION);
+    result.gps = Concatenate(result.gps, sourceLine.gps);
+
+    int max = -1;
+    for(int i = 0; (sourceLine.gps[i].longitude < vertex2.longitude) && i < sourceLine.gps.size(); i++){
+        max = i;
+    }
+
+    Map::XY_Pair boundaryLine = Autonomous::PathFinding::SubDivideLine(source, vertex2, Autonomous::PathFinding::CalcDistance(source,vertex2)/(long double)max);
+    Map::XY_Pair fillLine = Autonomous::PathFinding::SubDivideLine(source, vertex2, SUBDIVISION);
+    result.gps = Concatenate(result.gps, slice(boundaryLine.gps,1,boundaryLine.gps.size()-2));
+    result.gps = Concatenate(result.gps, slice(fillLine.gps,1,fillLine.gps.size()-2));
+
+    for(int i = 1; i <= max; i++){
+        Map::XY_Pair newResults = Autonomous::PathFinding::SubDivideLine(sourceLine.gps[i],boundaryLine.gps[i],1.L);
+        result.gps = Concatenate(result.gps, slice(newResults.gps,1,newResults.gps.size()-2));
+    }
+
+    // To Print out if needed
+    // for(Map::Coordinates x : result.gps){
+    //     std::cout << "[" << x.latitude << ", " << x.longitude << "]\n";
+    // }
+
+    return result;
 }

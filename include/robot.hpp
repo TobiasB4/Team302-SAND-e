@@ -2,6 +2,7 @@
 #include <iostream>
 #include <math.h>
 #include <vector>
+#include "template.hpp"
 #include <string>
 #include <fstream>
 #include <algorithm>
@@ -82,6 +83,11 @@ class PathFinding{
     // return: list of (x,y) pairs along the line
     static Map::XY_Pair SubDivideLine(Map::Coordinates gps1, Map::Coordinates gps2, long double x);
 
+    // Create more points inside polygon bounded by polygon's edges
+    // return: List of all new points created within the boundary of the polygon with no slope value
+    static Map::XY_Pair CreatePoints(Map::Coordinates source, Map::Coordinates boundary1 , Map::Coordinates boundary2, long double const SUBDIVISION);
+
+    static void DrawMap(Map::XY_Pair coordinateList, long double const SUBDIVISION);
 };
 
 class ObstacleDetection{
