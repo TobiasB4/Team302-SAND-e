@@ -155,6 +155,7 @@ Map::XY_Pair Autonomous::PathFinding::SubDivideLine(Map::Coordinates gps1, Map::
     int count = 0;
     for (long double distance = Autonomous::PathFinding::CalcDistance(gps1, gps2); distance > 0; distance-=SUBDIVISION, count++){
         Map::Coordinates newCoord = Autonomous::PathFinding::CalcPosition(Map::Coordinates(result.gps[count].latitude, result.gps[count].longitude, 0), SUBDIVISION, bearing);
+        //Need to fix this if line, really scuffed?
         if(newCoord.longitude > gps2.longitude){
         }else{
             result.gps.push_back(newCoord);
@@ -169,8 +170,7 @@ Map::XY_Pair Autonomous::PathFinding::SubDivideLine(Map::Coordinates gps1, Map::
 Map::XY_Pair Autonomous::PathFinding::CreatePoints(Map::Coordinates source, Map::Coordinates vertex1, Map::Coordinates vertex2, long double const SUBDIVISION){
     Map::XY_Pair result = Map::XY_Pair({});
     Map::XY_Pair sourceLine = Autonomous::PathFinding::SubDivideLine(source,vertex1, SUBDIVISION);
-    result.gps = Concatenate(result.gps, sourceLine.gps);
-
+    result.gps = Concatenate(result.gps, slice(sourceLine.gps,1,sourceLine.gps.size()-2));
     int max = -1;
     for(int i = 0; (sourceLine.gps[i].longitude < vertex2.longitude) && i < sourceLine.gps.size(); i++){
         max = i;
@@ -191,5 +191,33 @@ Map::XY_Pair Autonomous::PathFinding::CreatePoints(Map::Coordinates source, Map:
     //     std::cout << "[" << x.latitude << ", " << x.longitude << "]\n";
     // }
 
+    //need to adjust for filling in the points with regards to previous boundary lines as well
+
     return result;
+}
+
+Map::XY_Pair Autonomous::PathFinding::DrawMap(Map::XY_Pair coordinateList, long double const SUBDIVISION){
+    //Look for solution
+    int const someConstant = 5;
+    Map::XY_Pair newCoordinateList = Map::XY_Pair({});
+    newCoordinateList.gps = Concatenate(newCoordinateList.gps,coordinateList.gps);
+    for(int point = 0; point < someConstant; point++){
+        Map::XY_Pair tmp = Autonomous::PathFinding::CreatePoints(coordinateList.gps[point],coordinateList.gps[coordinateList.gps.size()-point-1],coordinateList.gps[point+1],SUBDIVISION);
+        newCoordinateList = Concatenate(newCoordinateList.gps,tmp.gps);
+    }
+
+    // for(Map::Coordinates x : newCoordinateList.gps){
+    //     std:: cout << "[" << x.latitude << ", " << x.longitude << "]\n";
+    // }
+
+    //generalize
+    std::ofstream f;
+    f.open("C:\\Users\\TobiB\\Documents\\Project_SAND-e\\Software\\include\\newCoordinates.txt");
+    if(f.is_open()){
+        for(Map::Coordinates x : newCoordinateList.gps){
+            f << std::fixed << std::setprecision(12) << "[" << x.latitude << ", " << x.longitude << "]\n";
+        }
+        f.close();
+    }
+    return newCoordinateList;
 }

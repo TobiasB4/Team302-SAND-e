@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <iomanip>
 #include <math.h>
 #include <vector>
 #include "template.hpp"
@@ -87,7 +88,9 @@ class PathFinding{
     // return: List of all new points created within the boundary of the polygon with no slope value
     static Map::XY_Pair CreatePoints(Map::Coordinates source, Map::Coordinates boundary1 , Map::Coordinates boundary2, long double const SUBDIVISION);
 
-    static void DrawMap(Map::XY_Pair coordinateList, long double const SUBDIVISION);
+    // Takes in a list of boundary points and draws all the points inside the boundary with given subdivision length
+    // return: List of all coordinates on the new map
+    static Map::XY_Pair DrawMap(Map::XY_Pair coordinateList, long double const SUBDIVISION);
 };
 
 class ObstacleDetection{
