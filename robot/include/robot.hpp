@@ -6,7 +6,7 @@
 #include <string>
 #include <fstream>
 #include <algorithm>
-#include <tuple>
+#include <iomanip>
 using std::vector;
 using std::string;
 #define EARTH_RADIUS 6378.8 // in km
@@ -85,7 +85,7 @@ class PathFinding{
 
     // Create more points inside polygon bounded by polygon's edges
     // return: List of all new points created within the boundary of the polygon with no slope value
-    static Map::XY_Pair CreatePoints(Map::Coordinates source, Map::Coordinates boundary1 , Map::Coordinates boundary2, long double const SUBDIVISION);
+    static Map::XY_Pair CreatePoints(Map::Coordinates source, Map::Coordinates boundary1 , Map::Coordinates boundary2, long double const SUBDIVISION, std::ofstream& file);
 
     static void DrawMap(Map::XY_Pair coordinateList, long double const SUBDIVISION);
 };
