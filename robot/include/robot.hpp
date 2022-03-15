@@ -18,7 +18,7 @@ namespace Map{
         long double longitude;
         long double altitude;
 
-
+        Coordinates() = default;
         Coordinates(long double latitude, long double longitude, long double altitude){
             this->latitude = latitude;
             this->longitude = longitude;
@@ -81,13 +81,13 @@ class PathFinding{
 
     // Divide line into subsections of length X meters apart 
     // return: list of (x,y) pairs along the line
-    static Map::XY_Pair SubDivideLine(Map::Coordinates gps1, Map::Coordinates gps2, long double x);
+    static vector<Map::Coordinates> SubDivideLine(Map::Coordinates gps1, Map::Coordinates gps2, long double x);
 
     // Create more points inside polygon bounded by polygon's edges
     // return: List of all new points created within the boundary of the polygon with no slope value
-    static Map::XY_Pair CreatePoints(Map::Coordinates source, Map::Coordinates boundary1 , Map::Coordinates boundary2, long double const SUBDIVISION, std::ofstream& file);
+    static vector<Map::Coordinates> CreatePoints(Map::Coordinates source, Map::Coordinates boundary1 , Map::Coordinates boundary2, long double const SUBDIVISION, std::ofstream& file);
 
-    static void DrawMap(Map::XY_Pair coordinateList, long double const SUBDIVISION);
+    static void DrawMap(Map::XY_Pair coordinateList, long double const SUBDIVISION, std::ofstream& file);
 };
 
 class ObstacleDetection{

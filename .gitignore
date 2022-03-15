@@ -13,6 +13,9 @@ SAND-e
 *.json
 *.o
 
+#useless files
+*.stackdump
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
