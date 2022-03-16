@@ -1,16 +1,46 @@
-
-
 *{
     margin: 0;
     padding: 0;
     box-sizing:  border-box;
-    font-family: sans-serif;
+    font-family: "Open Sans";
 }
 
 body{
+    background-color: #F7F7F7;
     width: 100%;
-    background-color: aliceblue;
     position: relative;
+    display: flex;
+}
+
+#interface{
+    width: calc(100%-300px);
+    height: 100%;
+    margin-top: 100px;
+}
+
+#interface .actions{
+    margin: 0 10px;
+}
+
+#interface .actions button{
+    background-color: #668BFE;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    text-align: center;
+    padding: 10px 40px;
+    font-size: 16px;
+    margin: 10px 10px;
+}
+
+#interface .actions button:hover{
+    background-color: #66a0fe;
+    color: #F3F4F6;
+    cursor: pointer;
+}
+
+#interface .log{
+    margin: 10px 10px;
 }
 
 #menu{
@@ -59,7 +89,7 @@ body{
     margin: 0 10px 0 25px;
 }
 
-#menu .tiems li:hover i,
+#menu .items li:hover i,
 #menu .items li:hover a{
     color: #F3F4F6;
 }
