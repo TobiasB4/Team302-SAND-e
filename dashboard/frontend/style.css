@@ -29,8 +29,50 @@ body{
     vertical-align: middle;
 }
 
+#interface .bearing > .compass{
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    margin: auto;
+}
+
+#interface .bearing > .compass > .arrow{
+    position: relative;
+    width: 0;
+    height: 0;
+    top: -20px;
+    margin: 0 auto;
+    transform: translateX(3.5%);
+    border-style: solid;
+    border-width: 30px 20px 0 20px;
+    border-color: red transparent transparent transparent;
+    z-index: 1;
+}
+
+#interface .bearing > .compass > .compass-circle,
+#interface .bearing > .compass > .my-point{
+    position: relative;
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    transform: translate(-1%,-2%);
+    transition: transform 0.1s ease-out;
+    background: url(https://cdn.onlinewebfonts.com/svg/img_467023.png) center no-repeat;
+    background-size: contain;
+}
+
+#interface .bearing > .compass > .my-point{
+    opacity: 0;
+    width: 20%;
+    height: 20%;
+    background: rgb(8,223,69);
+    border-radius: 50%;
+    transition: opacity 0.5s ease-out;
+}
+
 #interface .actions{
-    margin: 0 10px;
+    margin: 20px 10px;
 }
 
 #interface .actions button{
@@ -52,6 +94,27 @@ body{
 
 #interface .log{
     margin: 10px 10px;
+}
+
+#interface .log .scrollbox{
+    height: 150px;
+    width: 325px;
+    border: 1px;
+    border-radius: 8px;
+    overflow-y: scroll;
+    overflow-x: auto;
+    font-size: 12px;
+}
+
+#interface .power li{
+    float: right;
+    list-style: none;
+    padding-bottom: 2rem;
+}
+
+#interface .power img{
+    border: none;
+    width: 40px;
 }
 
 #interface .vstatus{
