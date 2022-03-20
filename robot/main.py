@@ -16,6 +16,7 @@ gps = UbloxGps(port)
 
 latitudes = []
 longitudes = []
+posItem = 0
 
 with open('base.txt','r') as f:
     for line in f:
@@ -28,12 +29,13 @@ with open('base.txt','r') as f:
         latitudes.append(float(lines[0]))
         longitudes.append(float(lines[1]))
 
-targetLat = latitudes[0]
-targetLong = longitudes[0]
+targetLat = latitudes[posItem]
+targetLong = longitudes[posItem]
 
 # -------------------------------------------------------------------------------------------------------
 #
-# Control loop
+# Control loop: Generator & Output
+#
 # At 10 Hz:
 # - set orientation (to face intended GPS heading) (within 5 degrees is ok, pass)
 # - check distance between current position and intended position and set rate accoringly
@@ -41,29 +43,36 @@ targetLong = longitudes[0]
 #
 # -------------------------------------------------------------------------------------------------------
 
-# GPS Position and Target
+# GPS Position and Target Check
 
+latitude = gps.geo_coords().lat
+longitude = gps.geo_coords().long
+reqDistance = ac.DistBetween(latitude, longitude, targetLat, targetLong)
+
+if(reqDistance <= 1):
+    posItem += 1
+    targetLat = latitudes[posItem]
+    targetLong = longitudes[posItem]
 
 # Generator for GPS heading
 
-def turningSpeed():
-    while 1:
+speed = 1500
+turnAngle = ac.CalcBearing()
+vehicleHeading = gps.veh_attitude().heading
+                
+# Need to turn left
+if(ac.CalcBearing(latitude, longitude, targetLat, targetLong) > vehicleHeading):
+    leftMots = -1
+    rightMots = 1
 
-        speed = 1500
-        turnAngle = ac.CalcBearing()
-        heading = gps.veh_attitude().heading
-        latitude = gps.geo_coords().lat
-        longitude = gps.geo_coords().long
-    
-        # Need to turn left
-        if(ac.CalcBearing(latitude, longitude, targetLat, targetLong) > 0):
-            leftMots = -1
-            rightMots = 1
+# Need to turn right
+elif(ac.CalcBearing(latitude, longitude, targetLat, targetLong) < 0):
+    leftMots = 1
+    rightMots = -1
 
-        # Need to turn right
-        if(ac.CalcBearing(latitude, longitude, targetLat, targetLong) < 0):
-            leftMots = 1
-            rightMots = -1
+# No need to turn
+else:
+    leftMots = 1
+    rightMots = 1
 
-        # No need to turn
-
+# yield values scaled into speed outputs 
