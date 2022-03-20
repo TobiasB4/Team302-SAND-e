@@ -43,13 +43,15 @@ targetLong = longitudes[posItem]
 #
 # -------------------------------------------------------------------------------------------------------
 
+# TODO: put all of this into while loop and yield scaled outputs
+
 # GPS Position and Target Check
 
 latitude = gps.geo_coords().lat
 longitude = gps.geo_coords().long
 reqDistance = ac.DistBetween(latitude, longitude, targetLat, targetLong)
 
-if(reqDistance <= 1):
+if reqDistance <= 1:
     posItem += 1
     targetLat = latitudes[posItem]
     targetLong = longitudes[posItem]
@@ -58,15 +60,18 @@ if(reqDistance <= 1):
 
 speed = 1500
 turnAngle = ac.CalcBearing()
-vehicleHeading = gps.veh_attitude().heading
-                
+vehicleHeading = gps.veh_attitude().heading # current heading, in degrees magnetic
+reqBearing = ac.CalcBearing(latitude, longitude, targetLat, targetLong) # required heading in degrees magnetic
+
+# TODO: vary speed with amount of difference between reqBearing and vehicleHeading
+
 # Need to turn left
-if(ac.CalcBearing(latitude, longitude, targetLat, targetLong) > vehicleHeading):
+if reqBearing < vehicleHeading:
     leftMots = -1
     rightMots = 1
 
 # Need to turn right
-elif(ac.CalcBearing(latitude, longitude, targetLat, targetLong) < 0):
+elif reqBearing > vehicleHeading:
     leftMots = 1
     rightMots = -1
 
