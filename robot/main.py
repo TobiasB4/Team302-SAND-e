@@ -7,17 +7,44 @@ from ublox_gps import UbloxGps
 port = serial.Serial('/dev/serial0', baudrate=38400, timeout=1)
 gps = UbloxGps(port)
 
-# Get the list of coordinates and put it into a list of latitudes and a list of longitudes
+# -------------------------------------------------------------------------------------------------------
+#
+# Parse coordinates, init
+# - Get the list of coordinates and put it into a list of latitudes and a list of longitudes
+#
+# -------------------------------------------------------------------------------------------------------
 
+latitudes = []
+longitudes = []
 
+with open('base.txt','r') as f:
+    for line in f:
+        lines = line.replace('\n','').replace(']','').split(',')
+        # Vancouver specific code:
+        # if(float(lines[0]) < 48. or float(lines[0]) > 50.):
+        #     continue
+        # if(float(lines[1]) < -125. or -123.):
+        #     continue
+        latitudes.append(float(lines[0]))
+        longitudes.append(float(lines[1]))
 
+targetLat = latitudes[0]
+targetLong = longitudes[0]
+
+# -------------------------------------------------------------------------------------------------------
+#
 # Control loop
 # At 10 Hz:
 # - set orientation (to face intended GPS heading) (within 5 degrees is ok, pass)
 # - check distance between current position and intended position and set rate accoringly
 # - drive for based on inputs
+#
+# -------------------------------------------------------------------------------------------------------
 
-# Generator for GPS heading, position
+# GPS Position and Target
+
+
+# Generator for GPS heading
 
 def turningSpeed():
     while 1:
@@ -39,3 +66,4 @@ def turningSpeed():
             rightMots = -1
 
         # No need to turn
+
