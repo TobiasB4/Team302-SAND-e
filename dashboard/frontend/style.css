@@ -120,16 +120,6 @@ body{
     overflow-x: auto;
     font-size: 12px;
 }
-#interface .log #scrollbox{
-    background-color: #FAFAFA;
-    height: 150px;
-    width: 325px;
-    border: 1px;
-    border-radius: 8px;
-    overflow-y: scroll;
-    overflow-x: auto;
-    font-size: 12px;
-}
 
 #interface .power li{
     float: right;

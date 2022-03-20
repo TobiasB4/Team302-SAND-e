@@ -2,7 +2,7 @@
 LOG CONSOLE SECTION
 */
 
-const scrollbox = document.getElementById("scrollbox");
+const scrollbox = document.querySelector(".scrollbox");
 
 function startLog(){
     //get info from log
