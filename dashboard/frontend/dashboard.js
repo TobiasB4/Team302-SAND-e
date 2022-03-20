@@ -35,8 +35,6 @@ function setHome(){
     }
 
     //Replace console log with some server interaction
-    console.log(text);
-
 
     //want to call updateLog somehow
     updateLog(text);
@@ -44,7 +42,6 @@ function setHome(){
 
 function returnHome(){
     //Send home command
-    console.log("going home")
 
     //want to call updateLog somehow
     updateLog("going home");
@@ -78,12 +75,29 @@ POWER SECTION
 
 function shutdown(){
     //send command to PI to shutdown
-    console.log("shutdown");
-    updateLog("shutdown");
+    updateLog("shutting down");
 }
 
 function restart(){
     //send command to PI to restart
-    console.log("restart");
-    updateLog("restart");
+    updateLog("restarting");
+}
+
+/*
+MAP SECTION
+*/
+
+function initMap(){
+    //Origin
+    const origin = { lat: 49.2863, lng:-123.1435};
+
+    const map = new google.maps.Map(document.querySelector(".map"),{
+        zoom:16,
+        center: origin,
+    });
+
+    const marker = new google.maps.Marker({
+        position: origin,
+        map: map,
+    });
 }

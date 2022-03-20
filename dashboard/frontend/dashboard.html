@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="style.css">
     
     <script type="text/javascript" src="./dashboard.js"></script>
-    
+
 </head>
 <body>
     <section id = "menu">
@@ -35,7 +35,6 @@
             </ul>
         </div>
     </section>
-
     <section id = "interface">
         <div class = "container">
             <div class = "subsection">
@@ -46,7 +45,6 @@
                         <div class = "my-point"></div>
                     </div>
                     <p id="bearing-text">angle</p>
-                    <!-- <script type="text/javascript" src="compass.js"></script> -->
                 </div>
                 <div class = "actions">
                     <table>
@@ -58,7 +56,6 @@
                             <td><button onclick="returnHome()" onclick="">Return Home</button></td>
                         </tr>
                     </table>
-                    <!-- <script type="module" src="actions.js"></script> -->
                 </div>
                 <div class = "log">
                     <table>
@@ -72,7 +69,6 @@
                             </td>
                         </tr>
                     </table>
-                    <!-- <script type="module" src="log_console.js"></script> -->
                 </div>
             </div>
             <div class = "subsection">
@@ -81,13 +77,13 @@
                         <li><a href="#"><button onclick="restart()"><img src="imgs/restart.png" alt=""></button></a></li>
                         <li><a href="#"><button onclick="shutdown()"><img src="imgs/shutdown.png" alt=""></button></a></li> 
                     </ul>
-                    <!-- <script type="text/javascript" src="power.js"></script> -->
                 </div>
                 <div class = "map">
-                    <img src="imgs/placeholder2.JPG" alt="">
+                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbe2lTnXxhZ0tr8Wll6hRst6jEvLMLN_4&callback=initMap&v=weekly"
+                    async></script>
                 </div>
                 <div class = "vstatus">
-                    Vehicle Status
+                    <b>Vehicle Status</b>
                     <table>
                         <tr>
                             <td>Battery</td>
