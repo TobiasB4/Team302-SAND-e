@@ -71,6 +71,20 @@ body{
     transition: opacity 0.5s ease-out;
 }
 
+#interface .bearing #bearing-text{
+    width: 100px;
+    height: 30px;
+    float: right;
+    margin: 20px;
+    margin-right: 60px;
+    border: solid #cecfd1;
+    background-color: #cecfd1;
+    border-radius: 8px;
+    text-decoration: none;
+    text-align: center;
+
+}
+
 #interface .actions{
     margin: 20px 10px;
 }
@@ -97,6 +111,16 @@ body{
 }
 
 #interface .log .scrollbox{
+    background-color: #FAFAFA;
+    height: 150px;
+    width: 325px;
+    border: 1px;
+    border-radius: 8px;
+    overflow-y: scroll;
+    overflow-x: auto;
+    font-size: 12px;
+}
+#interface .log #scrollbox{
     background-color: #FAFAFA;
     height: 150px;
     width: 325px;
