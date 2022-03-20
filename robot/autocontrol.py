@@ -6,11 +6,11 @@ from numpy import degrees, deg2rad
 # TODO: verify functionality
 # Calculate desired heading
 # Inputs: current lat & long, intended lat & long
-# Outputs: Bearing angle in degrees that needs to be moved from (0 to 360 degrees from true north)
+# Outputs: Bearing angle in degrees magnetic (0 to 360 degrees)
 def CalcBearing(currentLat, currentLong, goalLat, goalLong):    
     calc_x = math.cos(goalLat) * math.sin(goalLong - currentLong)
     calc_y = math.cos(currentLat) * math.sin(goalLat) - (math.sin(currentLat) * math.cos(goalLat) * math.cos(goalLong - currentLong))
-    bearing = (degrees(math.atan2(calc_x, calc_y)) + 360) % 360
+    bearing = ((degrees(math.atan2(calc_x, calc_y)) + 360) % 360) + 15.94 #15.94 is declination in Vancouver as of March 2022
     return bearing
 
 # TODO: verify functionality
