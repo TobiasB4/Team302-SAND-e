@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"/>
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
-
     
-
+    <script type="text/javascript" src="./dashboard.js"></script>
+    
 </head>
 <body>
     <section id = "menu">
@@ -46,7 +46,7 @@
                         <div class = "my-point"></div>
                     </div>
                     <p id="bearing-text">angle</p>
-                    <script type="text/javascript" src="compass.js"></script>
+                    <!-- <script type="text/javascript" src="compass.js"></script> -->
                 </div>
                 <div class = "actions">
                     <table>
@@ -55,10 +55,10 @@
                         </tr>
                         <tr>
                             <td><button onclick="setHome()">Set Home</button></td>
-                            <td><button>Return Home</button></td>
+                            <td><button onclick="returnHome()" onclick="">Return Home</button></td>
                         </tr>
                     </table>
-                    <script type="text/javascript" src="actions.js"></script>
+                    <!-- <script type="module" src="actions.js"></script> -->
                 </div>
                 <div class = "log">
                     <table>
@@ -72,15 +72,16 @@
                             </td>
                         </tr>
                     </table>
-                    <script type="text/javascript" src="log_console.js"></script>
+                    <!-- <script type="module" src="log_console.js"></script> -->
                 </div>
             </div>
             <div class = "subsection">
                 <div class = "power">
                     <ul>
-                        <li><a href="#"><button><img src="imgs/restart.png" alt=""></button></a></li>
-                        <li><a href="#"><button><img src="imgs/shutdown.png" alt=""></button></a></li> 
+                        <li><a href="#"><button onclick="restart()"><img src="imgs/restart.png" alt=""></button></a></li>
+                        <li><a href="#"><button onclick="shutdown()"><img src="imgs/shutdown.png" alt=""></button></a></li> 
                     </ul>
+                    <!-- <script type="text/javascript" src="power.js"></script> -->
                 </div>
                 <div class = "map">
                     <img src="imgs/placeholder2.JPG" alt="">
