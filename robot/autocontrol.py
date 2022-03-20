@@ -7,7 +7,7 @@ from numpy import degrees, deg2rad
 # Calculate desired heading
 # Inputs: current lat & long, intended lat & long
 # Outputs: Bearing angle in degrees that needs to be moved
-def calcBearing(currentLat, currentLong, goalLat, goalLong):    
+def CalcBearing(currentLat, currentLong, goalLat, goalLong):    
     calc_x = math.cos(goalLat) * math.sin(goalLong - currentLong)
     calc_y = math.cos(currentLat) * math.sin(goalLat) - (math.sin(currentLat) * math.cos(goalLat) * math.cos(goalLong - currentLong))
     bearing = degrees(math.atan2(calc_x, calc_y))
@@ -17,7 +17,7 @@ def calcBearing(currentLat, currentLong, goalLat, goalLong):
 # Calculate great-circle distance in meters between current point and goal using the Haversine formula
 # Inputs: current lat & long, intended lat & long
 # Outputs: distance (m)
-def distBetween(currentLat, currentLong, goalLat, goalLong):
+def DistBetween(currentLat, currentLong, goalLat, goalLong):
     lat1 = deg2rad(currentLat)
     long1 = deg2rad(currentLong)
     lat2 = deg2rad(goalLat)

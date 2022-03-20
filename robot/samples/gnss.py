@@ -19,6 +19,8 @@ def run():
                 print("Roll Acceleration: ", veh.accRoll)
                 print("Pitch Acceleration: ", veh.accPitch)
                 print("Heading Acceleration: ", veh.accHeading)
+                coords = gps.geo_coords()
+                print(coords.lon, coords.lat)
             except (ValueError, IOError) as err:
                 print(err)
 
