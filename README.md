@@ -18,3 +18,6 @@ SAND-e is a sustainable and autonomous small beach waste collection robot.
 
 #### robot
 - Pathfinding and robot control
+
+### Future additions
+[ ] Replace hardcoded declination value

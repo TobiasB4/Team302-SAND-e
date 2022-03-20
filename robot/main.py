@@ -43,41 +43,42 @@ targetLong = longitudes[posItem]
 #
 # -------------------------------------------------------------------------------------------------------
 
-# TODO: put all of this into while loop and yield scaled outputs
+while(1):
 
-# GPS Position and Target Check
+    # GPS Position and Target Check
+    latitude = gps.geo_coords().lat
+    longitude = gps.geo_coords().long
+    reqDistance = ac.DistBetween(latitude, longitude, targetLat, targetLong)
 
-latitude = gps.geo_coords().lat
-longitude = gps.geo_coords().long
-reqDistance = ac.DistBetween(latitude, longitude, targetLat, targetLong)
+    if reqDistance <= 1:
+        posItem += 1
+        targetLat = latitudes[posItem]
+        targetLong = longitudes[posItem]
 
-if reqDistance <= 1:
-    posItem += 1
-    targetLat = latitudes[posItem]
-    targetLong = longitudes[posItem]
+    # Generator for GPS heading
+    speed = 50
+    vehicleHeading = gps.veh_attitude().heading # current heading, in degrees magnetic
+    reqBearing = ac.CalcBearing(latitude, longitude, targetLat, targetLong) # required heading in degrees magnetic
+    angleBetween = reqBearing - vehicleHeading
 
-# Generator for GPS heading
+    # TODO: vary speed with amount of difference between reqBearing and vehicleHeading
 
-speed = 1500
-turnAngle = ac.CalcBearing()
-vehicleHeading = gps.veh_attitude().heading # current heading, in degrees magnetic
-reqBearing = ac.CalcBearing(latitude, longitude, targetLat, targetLong) # required heading in degrees magnetic
+    # Need to turn left
+    if angleBetween < 0:
+        leftMots = -1
+        rightMots = 1
+        speed = (vehicleHeading - reqBearing) / 3.6
 
-# TODO: vary speed with amount of difference between reqBearing and vehicleHeading
+    # Need to turn right
+    elif angleBetween > 0:
+        leftMots = 1
+        rightMots = -1
+        speed = angleBetween / 3.6
 
-# Need to turn left
-if reqBearing < vehicleHeading:
-    leftMots = -1
-    rightMots = 1
+    # No need to turn
+    # TODO: add angle buffer to functions above so this gets called
+    else:
+        leftMots = 1
+        rightMots = 1
 
-# Need to turn right
-elif reqBearing > vehicleHeading:
-    leftMots = 1
-    rightMots = -1
-
-# No need to turn
-else:
-    leftMots = 1
-    rightMots = 1
-
-# yield values scaled into speed outputs 
+# TODO: yield values scaled into speed outputs 
