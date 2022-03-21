@@ -37,3 +37,5 @@ Makefile
 
 #ignore vscode
 .vscode
+#API key ignore
+key.txt

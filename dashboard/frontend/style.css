@@ -1,0 +1,219 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing:  border-box;
+    font-family: "Open Sans";
+}
+
+body{
+    background-color: aliceblue;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    display: flex;
+}
+
+#interface{
+    background-color: aliceblue;
+    width: 100%;
+    height: 100%;
+}
+
+#interface .container{
+    margin: 0.8rem;
+}
+
+#interface .subsection{
+    display: inline-block;
+    padding-left: 4rem;
+    vertical-align: middle;
+}
+
+#interface .bearing > .compass{
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    margin: 0 55px;
+}
+
+#interface .bearing > .compass > .arrow{
+    position: relative;
+    width: 0;
+    height: 0;
+    top: -20px;
+    margin: 0 auto;
+    transform: translateX(3.5%);
+    border-style: solid;
+    border-width: 30px 20px 0 20px;
+    border-color: red transparent transparent transparent;
+    z-index: 1;
+}
+
+#interface .bearing > .compass > .compass-circle,
+#interface .bearing > .compass > .my-point{
+    position: relative;
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    transform: translate(-1%,-2%);
+    transition: transform 0.1s ease-out;
+    background: url(https://cdn.onlinewebfonts.com/svg/img_467023.png) center no-repeat;
+    background-size: contain;
+}
+
+#interface .bearing > .compass > .my-point{
+    opacity: 0;
+    width: 20%;
+    height: 20%;
+    background: rgb(8,223,69);
+    border-radius: 50%;
+    transition: opacity 0.5s ease-out;
+}
+
+#interface .bearing #bearing-text{
+    width: 100px;
+    height: 30px;
+    float: right;
+    margin: 20px;
+    margin-right: 60px;
+    border: solid #cecfd1;
+    background-color: #cecfd1;
+    border-radius: 8px;
+    text-decoration: none;
+    text-align: center;
+
+}
+
+#interface .actions{
+    margin: 20px 10px;
+}
+
+#interface .actions button{
+    background-color: #668BFE;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    text-align: center;
+    padding: 10px 40px;
+    font-size: 16px;
+    margin: 10px 10px;
+}
+
+#interface .actions button:hover{
+    background-color: #66a0fe;
+    color: #F3F4F6;
+    cursor: pointer;
+}
+
+#interface .log{
+    margin: 10px 10px;
+}
+
+#interface .log .scrollbox{
+    background-color: #FAFAFA;
+    height: 150px;
+    width: 325px;
+    border: 1px;
+    border-radius: 8px;
+    overflow-y: scroll;
+    overflow-x: auto;
+    font-size: 12px;
+}
+
+#interface .power li{
+    float: right;
+    list-style: none;
+    margin-bottom: 2rem;
+}
+
+#interface .power img{
+    border: none;
+    width: 40px;
+}
+
+#interface .map{
+    height: 400px;
+    width:  655px;
+    border: solid #3a3f47;
+    border-radius: 8px;
+}
+
+#interface .vstatus{
+    margin-top: 20px;
+}
+
+#interface .vstatus table{
+    width: 600px;
+    margin-left: 40px;
+    border-spacing: 75px 20px;
+    table-layout: fixed;
+}
+
+#interface .vstatus table td{
+    border: solid #cecfd1;
+    border-collapse: collapse;
+    border-radius: 8px;
+    padding: 15px 20px;
+    overflow: hidden;
+    font-size: smaller;
+    text-align: center;
+}
+
+#menu{
+    background-color: #fed966;
+    width: 300px;
+    height: 100vh;
+}
+
+#menu .logo{
+    display: flex;
+    align-items: center;
+    color: #3E85C7;
+    padding: 30px 0 0 30px;
+}
+
+#menu .logo img{
+    width: 40px;
+    margin-right: 15px;
+}
+
+#menu .items{
+    margin-top: 40px;
+}
+
+#menu .items li{
+    list-style: none;
+    padding: 15px 0;
+}
+
+#menu .items li:hover{
+    background: #ffcb2b;
+    cursor: pointer;
+}
+
+#menu .items li:nth-child(1){
+    border-left: 4px solid #fff;
+}
+
+#menu .items li i{
+    color: #3a3f47;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 14px;
+    margin: 0 10px 0 25px;
+}
+
+#menu .items li:hover i,
+#menu .items li:hover a{
+    color: #F3F4F6;
+}
+
+#menu .items li a{
+    text-decoration: none;
+    color: #3a3f47;
+    font-weight: 300px;
+    transition: 0.3 ease;
+}
