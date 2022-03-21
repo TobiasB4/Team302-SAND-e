@@ -1,5 +1,4 @@
-const port = 8000;
-const websocket = new WebSocket("ws://localhost:"+String(port));
+
 
 function recieveData_ws(websocket){
     websocket.addEventListener("message", ({data}) =>{
@@ -18,10 +17,9 @@ function recieveData_ws(websocket){
             case "kinetics":
                 document.getElementById("velocity").innerHTML = "V: " + event.velocity;
                 document.getElementById("acceleration").innerHTML = "A: " + event.acceleration;
-                console.log("Working!");
                 break;
             default:
-                console.log("Unsupported event type: ${event.type}.");
+                console.log("Unsupported event type:" +event.type);
         }
     });
 }

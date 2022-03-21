@@ -8,7 +8,7 @@ async def hello():
             "type":"kinetics_bot",
             "velocity": 125,
             "acceleration": 10,
-            "join":12345
+            "key": "robot",
         }
         await websocket.send(json.dumps(event))
         message = await websocket.recv()

@@ -3,49 +3,8 @@ import websockets
 import secrets
 import json
 
-JOIN = {}
+connected = []
 
-async def error(websocket, message):
-    event = {
-        "type": "error",
-        "message": message
-    }
-    await websocket.send(json.dumps(event))
-
-async def go(websocket, connected):
-    async for message in websocket:
-        messages = json.loads(message)
-        event = updateEvent(messages)
-
-        websockets.broadcast(connected, json.dumps(event))
-
-async def start(websocket):
-    connected = {websocket}
-    join_key = 12345
-    JOIN[join_key] = connected
-
-    try:
-        event = {
-            "type": "init",
-            "join": join_key,
-        }
-        await websocket.send(json.dumps(event))
-        await go()
-    finally:
-        del JOIN[join_key]
-
-async def join(websocket,join_key):
-    try:
-        connected = JOIN[join_key]
-    except KeyError:
-        await error(websocket,"key not found")
-        return
-    
-    connected.add(websocket)
-    try:
-        pass
-    finally:
-        connected.remove(websocket)
 
 async def updateEvent(message):
     messages = json.loads(message)
@@ -75,24 +34,22 @@ async def updateEvent(message):
         return
     else:
         return
-
-
+velocity = 0
 async def handler(websocket):
-    # message = await websocket.recv()
-    # event = json.loads(message)
-    
-    # if "join" in event:
-    #     await join(websocket,event["join"])
-    # else:
-    #     await start(websocket)
+    global velocity
     async for message in websocket:
-        event = {
-            "type": "kinetics",
-            "velocity": 123,
-            "acceleration": 456
-        }
+        event = json.loads(message)
+        if("key" in event and event["key"] == "robot"):
+            velocity += 1
+        else:
+            event= {
+                "type":"kinetics",
+                "velocity":velocity,
+                "acceleration":5
+            }
         await websocket.send(json.dumps(event))
         print(message)
+        print("v = " +str(velocity))
 
 
 

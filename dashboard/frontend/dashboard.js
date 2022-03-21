@@ -1,17 +1,15 @@
 /*
 COMPASS SECTION
 */
-websocket.addEventListener('open',recieveData_ws(websocket))
-// function init(websocket){
-//     websocket.addEventListener("open", ()=>{
-//         const params =  new URLSearchParams(window.location.search);
-//         let event = {type: "init"};
-//         if(params.has("join")){
-//             event.join = params.get("join");
-//         }
-//         websocket.send(JSON.stringify(event));
-//     });
-// }
+const websocket = new WebSocket("ws://localhost:8000");
+window.addEventListener('DOMContentLoaded',() =>{
+    let test = {type: "init"};
+    websocket.onopen = function(){
+        websocket.send(JSON.stringify(test));
+    }
+    websocket.addEventListener('open',recieveData_ws(websocket));
+});
+
 
 function startCompass() {
     //get heading from websocket??
