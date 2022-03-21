@@ -4,7 +4,7 @@
 SAND-e is a sustainable and autonomous small beach waste collection robot.
 
 ## How to build?
-
+Note: Currently using absolute path for testing purposes -> To be fixed...
 #### Steps:
 1. Open console
 2. Navigate to build folder
