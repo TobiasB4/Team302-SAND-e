@@ -21,6 +21,7 @@ body{
 
 #interface .container{
     margin: 0.8rem;
+    padding-top: 40px;
 }
 
 #interface .subsection{
@@ -164,6 +165,10 @@ body{
     background-color: #fed966;
     width: 300px;
     height: 100vh;
+}
+
+#menu #menu-title{
+    padding-right: 15px;
 }
 
 #menu .logo{
