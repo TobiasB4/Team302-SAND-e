@@ -6,7 +6,6 @@
 
 # Running server.py
 - SSH into server, then type following commands:
-```source ~/.venvs/sand-e-sockets/bin/activate```
 
 ```cd Team302-SAND-E/dashboard/server```
 
