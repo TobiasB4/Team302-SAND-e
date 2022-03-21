@@ -39,3 +39,5 @@ Makefile
 .vscode
 #ignore testing folder
 test/
+#API key ignore
+key.txt
