@@ -16,12 +16,12 @@ function recieveData_ws(websocket){
                 document.getElementById("bearing-text").innerHTML(event.angle+"°");
                 break;
             case "kinetics":
-                document.getElementById("velocity").innerHTML = event.velocity;
-                document.getElementById("acceleration").innerHTML = event.acceleration;
+                document.getElementById("velocity").innerHTML = "V: " + event.velocity;
+                document.getElementById("acceleration").innerHTML = "A: " + event.acceleration;
                 console.log("Working!");
                 break;
             default:
-                throw new Error("Unsupported event type: ${event.type}.");
+                console.log("Unsupported event type: ${event.type}.");
         }
     });
 }

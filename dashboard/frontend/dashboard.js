@@ -1,7 +1,18 @@
 /*
 COMPASS SECTION
 */
-recieveData_ws(websocket);
+websocket.addEventListener('open',recieveData_ws(websocket))
+// function init(websocket){
+//     websocket.addEventListener("open", ()=>{
+//         const params =  new URLSearchParams(window.location.search);
+//         let event = {type: "init"};
+//         if(params.has("join")){
+//             event.join = params.get("join");
+//         }
+//         websocket.send(JSON.stringify(event));
+//     });
+// }
+
 function startCompass() {
     //get heading from websocket??
     window.addEventListener("orientation",updateCompass,true);
@@ -134,3 +145,4 @@ function updateMarker(location, map){
         map: map,
     });
 }
+
