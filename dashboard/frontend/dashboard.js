@@ -25,6 +25,13 @@ function writeBearing(angle){
 ACTIONS SECTION -> SET HOME AND RETURN HOME
 */
 
+function parseCoordinates(text){
+    text = text.replace('[','').replace(']','').replace(' ','').replace('\n', '');
+    const latlong = text.split(',');
+    const coordinate = {lat: latlong[0],long: latlong[1]};
+    return coordinate;
+}
+//import {sendHome_ws} from './websocket.js';
 function setHome(){
     var input = prompt("Please enter home coordinates:","[49.28451838370452, -123.14407949644797]");
     var text;
@@ -33,11 +40,13 @@ function setHome(){
     }else{
         text = input;
     }
+    coordinate = parseCoordinates(text)
 
     //Replace console log with some server interaction
+    sendHome_ws(coordinate,websocket);
 
-    //want to call updateLog somehow
-    updateLog(text);
+    updateLog(coordinate.lat);
+    updateLog(coordinate.long);
 }
 
 function returnHome(){
