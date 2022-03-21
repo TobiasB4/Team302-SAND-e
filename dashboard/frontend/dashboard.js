@@ -25,30 +25,50 @@ function writeBearing(angle){
 ACTIONS SECTION -> SET HOME AND RETURN HOME
 */
 
+function verifyCoordinates(text){
+    if(!(text.startsWith('['))){
+        return false;
+    }
+    if(!(text.endsWith(']') || text.endsWith('\n'))){
+        return false;
+    }
+    text = text.replace('[','').replace(']','');
+    coordinate = text.split(',');
+    if(coordinate.length != 2){
+        return false;
+    }
+    if(isNaN(coordinate[0]) || isNaN(coordinate[1])){
+        return false;
+    }
+    return true;
+}
+
 function parseCoordinates(text){
     text = text.replace('[','').replace(']','').replace(' ','').replace('\n', '');
     const latlong = text.split(',');
     const coordinate = {lat: latlong[0],long: latlong[1]};
     return coordinate;
 }
-//import {sendHome_ws} from './websocket.js';
+
 function setHome(){
     var input = prompt("Please enter home coordinates:","[49.28451838370452, -123.14407949644797]");
     var text;
-    if(input == null || input == ""){
+    if(input == null || input == "" ){
         text = "Invalid input";
     }else{
         text = input;
     }
-    coordinate = parseCoordinates(text)
 
-    //Replace console log with some server interaction
-    sendHome_ws(coordinate,websocket);
+    //Make sure valid coordinate and 
+    if(verifyCoordinates(text)){
+        coordinate = parseCoordinates(text);
+        setHome_ws(coordinate,websocket);
+        updateLog("New Home: " + text);
+    }else{
+        updateLog("Invalid input");
+    }
 
-    updateLog(coordinate.lat);
-    updateLog(coordinate.long);
 }
-
 function returnHome(){
     //Send home command
 
