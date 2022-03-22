@@ -1,5 +1,4 @@
 import asyncio
-from asyncio.windows_events import NULL
 import websockets
 import secrets
 import json
@@ -76,7 +75,7 @@ async def handler(websocket):
         event = json.loads(message)
         if(event['type'] == "update"):
             await websocket.send(json.dumps(events))
-        elif(event != NULL):
+        elif(event != {}):
             event = await updateEvent(event)
             await websocket.send(json.dumps(event))
         else:
