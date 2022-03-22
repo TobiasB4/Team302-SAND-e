@@ -85,7 +85,6 @@ async def handler(websocket):
                 "message":"Invalid event"
             }
             await websocket.send(json.dumps(event))
-        print(message)
 
 
 
