@@ -7,7 +7,6 @@ websocket.onopen = function () {
         clearInterval(interval);
         console.log("Lost connection");
     }
-    //updatePage(websocket);
 }
 
 /*
