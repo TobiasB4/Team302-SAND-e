@@ -8,7 +8,9 @@ function recieveData_ws(websocket){
             document.getElementById("velocity").innerHTML = "V: " + event.velocity;
             document.getElementById("acceleration").innerHTML = "A: " + event.acceleration;
             //updateLog(event.recieve);
-            document.getElementById("bearing-text").innerHTML = event.orientation +"°";
+            document.getElementById("bearing-text").innerHTML = event.orientation + "°";
+            document.getElementById("current-lat").innerHTML = "[" + event.current_coord[0] + "]";
+            document.getElementById("current-lng").innerHTML = "[" + event.current_coord[1] + "]";
         } else if (event.type == "confirmation") {
             console.log(event.recieve);
         } else {
