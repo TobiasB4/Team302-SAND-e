@@ -3,25 +3,29 @@
 function recieveData_ws(websocket){
     websocket.addEventListener("message", ({data}) =>{
         const event = JSON.parse(data);
-        switch(event.type){
-            case "status":
-                updateLog(event.message);
-                break;
-            case "coordinate":
-                const coordinate = {lat: event.lat,lng: event.long};
-                updateMarker(coordinate,map);
-                break;
-            case "orientation":
-                document.getElementById("bearing-text").innerHTML(event.angle+"°");
-                break;
-            case "kinetics":
-                document.getElementById("velocity").innerHTML = "V: " + event.velocity;
-                document.getElementById("acceleration").innerHTML = "A: " + event.acceleration;
-                break;
-            default:
-                console.log("Unsupported event type:" +event.type);
+        if (event.type == "update") {
+            //const coordinate = {lat: event.lat,lng: event.long};
+            document.getElementById("velocity").innerHTML = "V: " + event.velocity;
+            document.getElementById("acceleration").innerHTML = "A: " + event.acceleration;
+            //updateLog(event.recieve);
+            document.getElementById("bearing-text").innerHTML = event.orientation + "°";
+            document.getElementById("current-lat").innerHTML = "[" + event.current_coord[0] + "]";
+            document.getElementById("current-lng").innerHTML = "[" + event.current_coord[1] + "]";
+        } else if (event.type == "confirmation") {
+            console.log(event.recieve);
+        } else {
+            
+            console.log("Unsupported event type:" + event.type);
         }
+        
     });
+}
+
+function updatePage(websocket) {
+    const event = {
+        type: "update", key: "web"
+    };
+    websocket.send(JSON.stringify(event));
 }
 
 function setHome_ws(coordinates,websocket){
@@ -32,7 +36,7 @@ function setHome_ws(coordinates,websocket){
     const event = {
         type: "coordinate_web",
         lat: coordinates.lat,
-        long: coordinates.lng
+        lng: coordinates.lng
     };
     websocket.send(JSON.stringify(event));
 }

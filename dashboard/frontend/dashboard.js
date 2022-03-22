@@ -2,13 +2,19 @@
 COMPASS SECTION
 */
 const websocket = new WebSocket("ws://localhost:8000");
-window.addEventListener('DOMContentLoaded',() =>{
-    let test = {type: "init"};
-    websocket.onopen = function(){
-        websocket.send(JSON.stringify(test));
+
+websocket.onopen = function () {
+    recieveData_ws(websocket);
+    const interval = setInterval(function () { updatePage(websocket); }, 500);
+    websocket.onclose = function () {
+        clearInterval(interval);
+        console.log("Lost connection");
     }
-    websocket.addEventListener('open',recieveData_ws(websocket));
-});
+    //updatePage(websocket);
+}
+
+
+
 
 
 function startCompass() {
