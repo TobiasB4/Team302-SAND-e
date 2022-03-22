@@ -1,6 +1,3 @@
-/*
-COMPASS SECTION
-*/
 const websocket = new WebSocket("ws://localhost:8000");
 
 websocket.onopen = function () {
@@ -13,9 +10,9 @@ websocket.onopen = function () {
     //updatePage(websocket);
 }
 
-
-
-
+/*
+COMPASS SECTION
+*/
 
 function startCompass() {
     //get heading from websocket??
