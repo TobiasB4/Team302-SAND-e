@@ -3,7 +3,7 @@ import json
 import websockets
 
 async def hello():
-    async with websockets.connect("ws://localhost:8000") as websocket:
+    async with websockets.connect("ws://147.182.255.197:8000") as websocket:
         event = {
             "type":"kinetics_bot",
             "velocity": 125,

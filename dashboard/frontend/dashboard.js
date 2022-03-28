@@ -1,4 +1,4 @@
-const websocket = new WebSocket("ws://localhost:8000");
+const websocket = new WebSocket("ws://147.182.255.197:8000");
 
 websocket.onopen = function () {
     recieveData_ws(websocket);
