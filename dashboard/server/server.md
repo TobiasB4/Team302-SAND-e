@@ -16,5 +16,6 @@
 
 # Running server.py
 1. SSH into server
-2. cd into Team302-SAND-E/dashboard/server
+2. cd into ```Team302-SAND-E/dashboard/server```
 3. ```python3 app.py```
+
