@@ -4,9 +4,20 @@
 2. Dashboard back-end
 3. Server setup
 
-# Running server.py
-- SSH into server, then type following commands:
+# Giving access to new IP address
+1. SSH into server
+2. ```sudo ufw allow from __new_ip_address__```
 
-```cd Team302-SAND-E/dashboard/server```
+## Reminder: Make sure to check ufw status after to ensure it is from correct ip address 
 
-```python3 server.py```
+#### Extra commands for ufw
+1. ```sudo ufw status numbered``` to check the available ip addresses with the corresponding number
+2. ```sudo ufw delete __x__``` to delete rule number x
+
+# Running app.py
+1. SSH into server
+2. cd into ```Team302-SAND-E/dashboard/server```
+3. ```python3 app.py```
+
+#### Extra commands for checking network connections
+1. ```sudo netstat -tulpn | grep LISTEN``` to check which ports are currently listening
