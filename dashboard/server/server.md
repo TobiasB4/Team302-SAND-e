@@ -14,8 +14,10 @@
 1. ```sudo ufw status numbered``` to check the available ip addresses with the corresponding number
 2. ```sudo ufw delete __x__``` to delete rule number x
 
-# Running server.py
+# Running app.py
 1. SSH into server
 2. cd into ```Team302-SAND-E/dashboard/server```
 3. ```python3 app.py```
 
+#### Extra commands for checking network connections
+1. ```sudo netstat -tulpn | grep LISTEN``` to check which ports are currently listening
