@@ -1,9 +1,20 @@
+const websocket = new WebSocket("ws://147.182.255.197:8000");
+
+websocket.onopen = function () {
+    recieveData_ws(websocket);
+    const interval = setInterval(function () { updatePage(websocket); }, 500);
+    websocket.onclose = function () {
+        clearInterval(interval);
+        console.log("Lost connection");
+    }
+}
+
 /*
 COMPASS SECTION
 */
 
 function startCompass() {
-    //get heading from websocket to be done later
+    //get heading from websocket??
     window.addEventListener("orientation",updateCompass,true);
 }
 
@@ -13,38 +24,62 @@ function updateCompass(e){
 
     let compass;
     compass = e.webkitCompassHeading || Math.abs(e.alpha - 360);
-    writeBearing(compass);
     compassCircle.style.transform = `translate(-1%,-2%) rotate(${-compass}deg)`
-}
-
-function writeBearing(angle){
-    document.getElementById("bearing-text").innerHTML = angle + "°";
 }
 
 /*
 ACTIONS SECTION -> SET HOME AND RETURN HOME
 */
 
+function verifyCoordinates(text){
+    if(!(text.startsWith('['))){
+        return false;
+    }
+    if(!(text.endsWith(']') || text.endsWith('\n'))){
+        return false;
+    }
+    text = text.replace('[','').replace(']','');
+    coordinate = text.split(',');
+    if(coordinate.length != 2){
+        return false;
+    }
+    if(isNaN(coordinate[0]) || isNaN(coordinate[1])){
+        return false;
+    }
+    return true;
+}
+
+function parseCoordinates(text){
+    text = text.replace('[','').replace(']','').replace(' ','').replace('\n', '');
+    const latlong = text.split(',');
+    const coordinate = {lat: parseFloat(latlong[0]),lng: parseFloat(latlong[1])};
+    return coordinate;
+}
+
 function setHome(){
     var input = prompt("Please enter home coordinates:","[49.28451838370452, -123.14407949644797]");
     var text;
-    if(input == null || input == ""){
+    if(input == null || input == "" ){
         text = "Invalid input";
     }else{
         text = input;
     }
 
-    //Replace console log with some server interaction
+    //Make sure valid coordinate and 
+    if(verifyCoordinates(text)){
+        coordinate = parseCoordinates(text);
+        setHome_ws(coordinate,websocket);
+        updateLog("New Home: " + text);
+    }else{
+        updateLog("Invalid input");
+    }
 
-    //want to call updateLog somehow
-    updateLog(text);
 }
-
 function returnHome(){
     //Send home command
-
-    //want to call updateLog somehow
-    updateLog("going home");
+    sendHome_ws(websocket);
+    //Update log console
+    updateLog("Going home...");
 }
 
 /*
@@ -59,12 +94,12 @@ function startLog(){
     }
 }
 
-function updateLog(x){
+function updateLog(text){
     const scrollbox = document.querySelector(".scrollbox");
 
     var newElement = document.createElement('div');
-    newElement.setAttribute('id', String(x));
-    newElement.innerHTML = x;
+    newElement.setAttribute('id', String(text));
+    newElement.innerHTML = text;
 
     scrollbox.appendChild(newElement);
 }
@@ -74,12 +109,14 @@ POWER SECTION
 */
 
 function shutdown(){
-    //send command to PI to shutdown
+    //send shutdown command
+    shutdown_ws(websocket);
     updateLog("shutting down");
 }
 
 function restart(){
-    //send command to PI to restart
+    //send restart command
+    restart_ws(websocket);
     updateLog("restarting");
 }
 
@@ -101,3 +138,11 @@ function initMap(){
         map: map,
     });
 }
+
+function updateMarker(location, map){
+    const marker = new google.maps.Marker({
+        position: location,
+        map: map,
+    });
+}
+

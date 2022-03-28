@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"/>
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
-    
+    <script type="text/javascript" src="./websocket.js"></script>
     <script type="text/javascript" src="./dashboard.js"></script>
 
 </head>
@@ -91,12 +91,12 @@
                     <b>Vehicle Status</b>
                     <table>
                         <tr>
-                            <td>Battery</td>
-                            <td>Velocity/Acceleration</td>
+                            <td id="velocity">Velocity</td>
+                            <td id="acceleration">Acceleration</td>
                         </tr>
                         <tr>
-                            <td>Coordinates</td>
-                            <td>Obstacle Detection</td>
+                            <td id="current-lat">Latitude</td>
+                            <td id="current-lng">Longitude</td>
                         </tr>
                     </table>
                 </div>

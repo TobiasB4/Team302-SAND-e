@@ -114,7 +114,7 @@ body{
 #interface .log .scrollbox{
     background-color: #FAFAFA;
     height: 150px;
-    width: 325px;
+    width: 350px;
     border: 1px;
     border-radius: 8px;
     overflow-y: scroll;
@@ -212,12 +212,14 @@ body{
 }
 
 #menu .items li:hover i,
-#menu .items li:hover a{
+#menu .items a:hover li{
     color: #F3F4F6;
 }
 
-#menu .items a li{
+#menu .items a{
     text-decoration: none;
+}
+#menu .items a li{
     color: #3a3f47;
     font-weight: 300px;
     transition: 0.3 ease;
