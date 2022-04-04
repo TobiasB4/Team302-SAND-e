@@ -13,19 +13,11 @@ websocket.onopen = function () {
 COMPASS SECTION
 */
 
-function startCompass() {
-    //get heading from websocket??
-    window.addEventListener("orientation",updateCompass,true);
+function updateCompass(angle){
+    const compassCircle = document.querySelector(".compass-circle");
+    compassCircle.style.transform = `translate(-1%,-2%) rotate(${-angle}deg)`
 }
 
-function updateCompass(e){
-    const compassCircle = document.querySelector(".compass-cirlce");
-    const myPoint = document.querySelector(".my-point");
-
-    let compass;
-    compass = e.webkitCompassHeading || Math.abs(e.alpha - 360);
-    compassCircle.style.transform = `translate(-1%,-2%) rotate(${-compass}deg)`
-}
 
 /*
 ACTIONS SECTION -> SET HOME AND RETURN HOME
