@@ -4,10 +4,12 @@ function recieveData_ws(websocket){
     websocket.addEventListener("message", ({data}) =>{
         const event = JSON.parse(data);
         if (event.type == "update") {
-            //const coordinate = {lat: event.lat,lng: event.long};
             document.getElementById("velocity").innerHTML = "V: " + event.velocity;
             document.getElementById("acceleration").innerHTML = "A: " + event.acceleration;
-            //updateLog(event.recieve);
+            if(event.recieve != null){
+                updateLog(event.recieve);
+            }
+            updateCompass(event.orientation);
             document.getElementById("bearing-text").innerHTML = event.orientation + "°";
             document.getElementById("current-lat").innerHTML = "[" + event.current_coord[0] + "]";
             document.getElementById("current-lng").innerHTML = "[" + event.current_coord[1] + "]";
