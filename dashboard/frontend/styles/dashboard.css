@@ -12,13 +12,12 @@ html, body{
 }
 
 body{
-    background-color: aliceblue;
+    background-image: linear-gradient(to bottom left, #fff, #4a71e8);
     display: flex;
 }
 
 #interface{
     overflow: auto;
-    background-color: aliceblue;
     width: calc(100% - 320px);
 }
 
@@ -36,6 +35,7 @@ body{
     width: 250px;
     height: 250px;
     border-radius: 50%;
+    background-color: white;
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
     margin: 0 55px;
 }
@@ -80,7 +80,7 @@ body{
     margin: 20px;
     margin-right: 60px;
     border: solid #cecfd1;
-    background-color: #cecfd1;
+    background-color: white;
     border-radius: 8px;
     text-decoration: none;
     text-align: center;
@@ -92,7 +92,7 @@ body{
 }
 
 #interface .actions button{
-    background-color: #668BFE;
+    background-color: #fed966;
     border: none;
     border-radius: 8px;
     text-decoration: none;
@@ -103,7 +103,7 @@ body{
 }
 
 #interface .actions button:hover{
-    background-color: #66a0fe;
+    background-color: #ffcb2b;
     color: #F3F4F6;
     cursor: pointer;
 }
@@ -113,7 +113,7 @@ body{
 }
 
 #interface .log .scrollbox{
-    background-color: #FAFAFA;
+    background-color: white;
     height: 150px;
     width: 350px;
     border: 1px;
@@ -123,6 +123,16 @@ body{
     font-size: 12px;
 }
 
+#interface .power button{
+    border-radius: 50%;
+    border: none;
+}
+
+#interface .power button:hover{
+    cursor: pointer;
+    background-color: white;
+}
+
 #interface .power li{
     float: right;
     list-style: none;
@@ -130,7 +140,8 @@ body{
 }
 
 #interface .power img{
-    border: none;
+    position: relative;
+    top: 2px;
     width: 40px;
 }
 
@@ -153,6 +164,7 @@ body{
 }
 
 #interface .vstatus table td{
+    background-color: white;
     border: solid #cecfd1;
     border-collapse: collapse;
     border-radius: 8px;
