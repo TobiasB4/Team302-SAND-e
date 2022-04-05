@@ -8,7 +8,6 @@
 html, body{
     height: 100%;
     width: 100%;
-    overflow: auto;
 }
 
 body{
@@ -176,8 +175,6 @@ body{
 
 #menu{
     background-color: #fed966;
-    flex-direction: column;
-    flex-grow: 1;
     height: 100%;
     width: 300px;
 }
