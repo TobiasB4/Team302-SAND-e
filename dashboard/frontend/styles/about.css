@@ -8,13 +8,55 @@
 html, body{
     height: 100%;
     width: 100%;
+}
+
+body{
+    display: flex;
+}
+
+#about{
     overflow: auto;
+    width: calc(100% - 300px);
+    height: 100%;
+}
+
+#about > #title{
+    margin: 2% 0;
+    text-align: center;
+}
+
+#about .team{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    column-gap: 2%;
+    justify-content: center;
+}
+
+#about .team #name{
+    color: #3E85C7;
+    font-size: 28px;
+}
+
+#about .team #job-title{
+    color: black;
+    font-size: 22px;
+}
+
+#about .team .profile{
+    text-align: center;
+    width: 375px;
+    height: 400px;
+    font-size: 16px;
+}
+
+#about .team #responsibilities{
+    margin-top: 3%;
 }
 
 #menu{
     background-color: #fed966;
-    flex-direction: column;
-    flex-grow: 1;
     height: 100%;
     width: 300px;
 }

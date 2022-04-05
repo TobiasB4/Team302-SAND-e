@@ -17,7 +17,7 @@ body{
 
 #interface{
     overflow: auto;
-    width: calc(100% - 320px);
+    width: calc(100% - 300px);
 }
 
 #interface .container{
