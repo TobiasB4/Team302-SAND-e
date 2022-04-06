@@ -103,7 +103,7 @@ body{
     cursor: pointer;
 }
 
-#menu .items a:nth-child(4) li{
+#menu .items a:nth-child(3) li{
     border-left: 4px solid #fff;
 }
 
