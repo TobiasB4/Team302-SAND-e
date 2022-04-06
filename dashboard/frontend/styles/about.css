@@ -11,6 +11,8 @@ html, body{
 }
 
 body{
+    background-image: url(../imgs/ripples.png);
+    background-repeat: repeat;
     display: flex;
 }
 
@@ -21,7 +23,9 @@ body{
 }
 
 #about > #title{
-    margin: 2% 0;
+    margin-top: 2%;
+    margin-bottom: 4%;
+    font-size: 32px;
     text-align: center;
 }
 
@@ -36,23 +40,31 @@ body{
 
 #about .team #name{
     color: #3E85C7;
-    font-size: 28px;
+    font-size: 22px;
 }
 
 #about .team #job-title{
     color: black;
-    font-size: 22px;
+    font-size: 18px;
 }
 
 #about .team .profile{
     text-align: center;
     width: 375px;
-    height: 400px;
+    height: auto;
     font-size: 16px;
 }
 
-#about .team #responsibilities{
-    margin-top: 3%;
+#about .team #profilepic{
+    border: none;
+    border-radius: 50%;
+    width: 65%;
+    height: 225px;
+}
+
+#about .team #jessie img{
+    width: 225px;
+    height: 225px;
 }
 
 #menu{
@@ -91,7 +103,7 @@ body{
     cursor: pointer;
 }
 
-#menu .items a:nth-child(3) li{
+#menu .items a:nth-child(4) li{
     border-left: 4px solid #fff;
 }
 
