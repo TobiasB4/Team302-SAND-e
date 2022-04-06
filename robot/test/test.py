@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
-
+import csv
+import itertools
 x = []
 y = []
 with open('base.txt','r') as f:
@@ -22,5 +23,10 @@ with open('test.txt', 'r') as f:
             continue
         x.append(float(lines[0]))
         y.append(float(lines[1]))
+
+# with open('test.csv','w') as f:
+#     writer = csv.writer(f)
+#     for (xval,yval) in zip(x,y):
+#         writer.writerow([xval,yval])
 plt.plot(x,y,color="blue")
 plt.show()
