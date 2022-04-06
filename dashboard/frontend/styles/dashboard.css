@@ -100,7 +100,7 @@ body{
     text-align: center;
     padding: 10px 40px;
     font-size: 16px;
-    margin: 10px 10px;
+    margin: 2% 10px;
 }
 
 #interface .actions button:hover{
@@ -110,7 +110,7 @@ body{
 }
 
 #interface .log{
-    margin: 10px 10px;
+    margin: 1% 2%;
 }
 
 #interface .log .scrollbox{
@@ -139,7 +139,7 @@ body{
 #interface .power li{
     float: right;
     list-style: none;
-    margin-bottom: 2rem;
+    margin-bottom: 3%;
 }
 
 #interface .power img{
