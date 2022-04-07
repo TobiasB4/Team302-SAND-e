@@ -94,19 +94,19 @@ my_drive2.axis1.controller.input_vel = -speed
 my_drive3.axis1.controller.input_vel = -speed
 time.sleep(10)
 
-for i in range (7):
-    my_drive1.axis0.controller.input_vel = speed
-    my_drive2.axis0.controller.input_vel = speed
-    my_drive3.axis0.controller.input_vel = speed
-    my_drive1.axis1.controller.input_vel = -speed
-    my_drive2.axis1.controller.input_vel = -speed
-    my_drive3.axis1.controller.input_vel = -speed
-    speed-=1
-    time.sleep(1)
+# for i in range (7):
+#     my_drive1.axis0.controller.input_vel = speed
+#     my_drive2.axis0.controller.input_vel = speed
+#     my_drive3.axis0.controller.input_vel = speed
+#     my_drive1.axis1.controller.input_vel = -speed
+#     my_drive2.axis1.controller.input_vel = -speed
+#     my_drive3.axis1.controller.input_vel = -speed
+#     speed-=1
+#     time.sleep(1)
 
-my_drive1.axis0.controller.input_vel = 0
-my_drive2.axis0.controller.input_vel = 0
-my_drive3.axis0.controller.input_vel = 0
-my_drive1.axis1.controller.input_vel = 0
-my_drive2.axis1.controller.input_vel = 0
-my_drive3.axis1.controller.input_vel = 0
+    my_drive1.axis0.controller.input_vel = 10
+    my_drive2.axis0.controller.input_vel = 10
+    my_drive3.axis0.controller.input_vel = 10
+    my_drive1.axis1.controller.input_vel = -10
+    my_drive2.axis1.controller.input_vel = -10
+    my_drive3.axis1.controller.input_vel = -10
