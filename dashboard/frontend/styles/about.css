@@ -1,0 +1,140 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Open Sans";
+}
+
+html, body{
+    height: 100%;
+    width: 100%;
+}
+
+body{
+    background-image: url(../imgs/ripples.png);
+    background-repeat: repeat;
+    display: flex;
+}
+
+#about{
+    overflow: auto;
+    width: calc(100% - 300px);
+    height: 100%;
+}
+
+#about > #title{
+    margin-top: 2%;
+    margin-bottom: 4%;
+    font-size: 32px;
+    text-align: center;
+}
+
+#about .team{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    column-gap: 2%;
+    justify-content: center;
+}
+
+#about .team #name{
+    color: #3E85C7;
+    font-size: 22px;
+}
+
+#about .team #job-title{
+    color: black;
+    font-size: 18px;
+}
+
+#about .team .profile{
+    text-align: center;
+    width: 375px;
+    height: auto;
+    font-size: 16px;
+}
+
+#about .team #profilepic{
+    border: none;
+    border-radius: 50%;
+    width: 65%;
+    height: 250px;
+}
+
+
+#about .team #tobi img{
+    border: none;
+    border-radius: 50%;
+    width: 70%;
+    height: 250px;
+}
+
+#about .team #jessie img{
+    width: 250px;
+    height: 250px;
+}
+
+#menu{
+    background-color: #fed966;
+    height: 100%;
+    width: 300px;
+}
+
+#menu #menu-title{
+    padding-right: 15px;
+}
+
+#menu .logo{
+    display: flex;
+    align-items: center;
+    color: #3E85C7;
+    padding: 30px 0 0 30px;
+}
+
+#menu .logo img{
+    width: 40px;
+    margin-right: 15px;
+}
+
+#menu .items{
+    margin-top: 40px;
+}
+
+#menu .items li{
+    list-style: none;
+    padding: 15px 0;
+}
+
+#menu .items li:hover{
+    background: #ffcb2b;
+    cursor: pointer;
+}
+
+#menu .items a:nth-child(3) li{
+    border-left: 4px solid #fff;
+}
+
+#menu .items li i{
+    color: #3a3f47;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 14px;
+    margin: 0 10px 0 25px;
+}
+
+#menu .items li:hover i,
+#menu .items a:hover li{
+    color: #F3F4F6;
+}
+
+#menu .items a{
+    text-decoration: none;
+}
+#menu .items a li{
+    color: #3a3f47;
+    font-weight: 300px;
+    transition: 0.3 ease;
+}

@@ -8,9 +8,9 @@
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"/>
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
-    <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="./websocket.js"></script>
-    <script type="text/javascript" src="./dashboard.js"></script>
+    <link rel="stylesheet" href="./styles/dashboard.css">
+    <script type="text/javascript" src="./js/websocket.js"></script>
+    <script type="text/javascript" src="./js/dashboard.js"></script>
 
 </head>
 <body>
@@ -22,7 +22,7 @@
 
         <div class="items">
             <ul>
-                <a href="#">
+                <a href="./index.html">
                     <li>
                         <i class="fa-solid fa-house"></i>Home
                     </li>
@@ -32,9 +32,14 @@
                         <i class="fa-solid fa-table-columns"></i>Dashboard
                     </li>
                 </a>
-                <a href="#">
+                <a href="./about.html">
                     <li>
                         <i class="fa-solid fa-circle-info"></i>About
+                    </li>
+                </a>
+                <a href="https://github.com/TobiasB4/Team302-SAND-e.git" target="_blank">
+                    <li>
+                        <i class="fa-brands fa-github"></i>Github
                     </li>
                 </a>
             </ul>
@@ -84,8 +89,9 @@
                     </ul>
                 </div>
                 <div class = "map">
-                    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=ENTER_KEY_HERE&callback=initMap&v=weekly"
-                    async></script> -->
+                    <b>Map</b>
+                    <script src="https://maps.googleapis.com/maps/api/js?key=ENTER_KEY_HERE&callback=initMap&v=weekly"
+                    async></script>
                 </div>
                 <div class = "vstatus">
                     <b>Vehicle Status</b>
