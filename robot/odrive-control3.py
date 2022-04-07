@@ -104,9 +104,9 @@ time.sleep(10)
 #     speed-=1
 #     time.sleep(1)
 
-    my_drive1.axis0.controller.input_vel = 10
-    my_drive2.axis0.controller.input_vel = 10
-    my_drive3.axis0.controller.input_vel = 10
-    my_drive1.axis1.controller.input_vel = -10
-    my_drive2.axis1.controller.input_vel = -10
-    my_drive3.axis1.controller.input_vel = -10
+my_drive1.axis0.controller.input_vel = 10
+my_drive2.axis0.controller.input_vel = 10
+my_drive3.axis0.controller.input_vel = 10
+my_drive1.axis1.controller.input_vel = -10
+my_drive2.axis1.controller.input_vel = -10
+my_drive3.axis1.controller.input_vel = -10
