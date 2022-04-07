@@ -1,6 +1,6 @@
 from smbus2 import SMBus
 
-i2c_addr = 80
+i2c_addr = 60
 
 with SMBus(1) as bus:
     data = [0, 1, 2, 3, 4, 5]
