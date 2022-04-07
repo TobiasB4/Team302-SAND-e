@@ -128,14 +128,44 @@ void loop() {
     Serial << "Axis" << c << ": Requesting state " << requested_state << '\n';
     odrive1.run_state(motornum, requested_state, true);
     if(!odrive1.run_state(motornum, requested_state, true)){
-      Serial.println("Failed Motor Calibration");
+      Serial.println("Failed Motor Calibration OD1");
       return;
     }
     requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL;
     Serial << "Axis" << c << ": Requesting state " << requested_state << '\n';
     odrive1.run_state(motornum, requested_state, false /*don't wait*/);
     if(!odrive1.run_state(motornum, requested_state, false /*don't wait*/)) {
-      Serial.println("Failed Closed Loop Control");
+      Serial.println("Failed Closed Loop Control OD1");
+      return;
+    }
+    
+    requested_state = AXIS_STATE_MOTOR_CALIBRATION;
+    Serial << "Axis" << c << ": Requesting state " << requested_state << '\n';
+    odrive2.run_state(motornum, requested_state, true);
+    if(!odrive2.run_state(motornum, requested_state, true)){
+      Serial.println("Failed Motor Calibration OD2");
+      return;
+    }
+    requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL;
+    Serial << "Axis" << c << ": Requesting state " << requested_state << '\n';
+    odrive2.run_state(motornum, requested_state, false /*don't wait*/);
+    if(!odrive2.run_state(motornum, requested_state, false /*don't wait*/)) {
+      Serial.println("Failed Closed Loop Control OD2");
+      return;
+    }
+    
+    requested_state = AXIS_STATE_MOTOR_CALIBRATION;
+    Serial << "Axis" << c << ": Requesting state " << requested_state << '\n';
+    odrive3.run_state(motornum, requested_state, true);
+    if(!odrive3.run_state(motornum, requested_state, true)){
+      Serial.println("Failed Motor Calibration OD3");
+      return;
+    }
+    requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL;
+    Serial << "Axis" << c << ": Requesting state " << requested_state << '\n';
+    odrive1.run_state(motornum, requested_state, false /*don't wait*/);
+    if(!odrive1.run_state(motornum, requested_state, false /*don't wait*/)) {
+      Serial.println("Failed Closed Loop Control OD3");
       return;
     }
   }
