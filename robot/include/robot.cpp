@@ -163,18 +163,16 @@ vector<Map::Coordinates> Autonomous::PathFinding::SubDivideLine(Map::Coordinates
     return *result;
 }
 
-vector<Map::Coordinates> Autonomous::PathFinding::CreatePoints(Map::Coordinates source, Map::Coordinates vertex1, Map::Coordinates vertex2, long double const SUBDIVISION, std::ofstream& file){
+vector<Map::Coordinates> Autonomous::PathFinding::CreatePoints(Map::Coordinates source, Map::Coordinates vertex1, Map::Coordinates vertex2, long double const SUBDIVISION){
     vector<Map::Coordinates> *result = new vector<Map::Coordinates>;
-    Map::XY_Pair fill = Map::XY_Pair({vertex1, vertex2});
-    Map::XY_Pair sourceLine = Autonomous::PathFinding::SubDivideLine(source,vertex1, SUBDIVISION);
+    vector<Map::Coordinates> fill = {vertex1, vertex2};
+    vector<Map::Coordinates> sourceLine = Autonomous::PathFinding::SubDivideLine(source,vertex1, SUBDIVISION);
 
-    
-
-    Map::XY_Pair boundaryLine = Autonomous::PathFinding::SubDivideLine(source, vertex2, Autonomous::PathFinding::CalcDistance(source,vertex2)/sourceLine.gps.size());
+    vector<Map::Coordinates> boundaryLine = Autonomous::PathFinding::SubDivideLine(source, vertex2, Autonomous::PathFinding::CalcDistance(source,vertex2)/sourceLine.size());
     vector<Map::Coordinates> *temp = new vector<Map::Coordinates>;
-    for(int i = 1; i < boundaryLine.gps.size(); i++){
-        temp->push_back(sourceLine.gps[i]);
-        temp->push_back(boundaryLine.gps[i]);
+    for(int i = 1; i < boundaryLine.size(); i++){
+        temp->push_back(sourceLine[i]);
+        temp->push_back(boundaryLine[i]);
     }
     *result = Concatenate(*result, *temp);
     delete temp;
@@ -187,33 +185,33 @@ vector<Map::Coordinates> Autonomous::PathFinding::CreatePoints(Map::Coordinates 
     return *result;
 }
 
-void Autonomous::PathFinding::DrawMap(Map::XY_Pair coordinateList, long double const SUBDIVISION, std::ofstream& file){
-    vector<Map::Coordinates> *result = new vector<Map::Coordinates>{coordinateList.gps[0]};
+void Autonomous::PathFinding::DrawMap(vector<Map::Coordinates> coordinateList, long double const SUBDIVISION, std::ofstream& file){
+    vector<Map::Coordinates> *result = new vector<Map::Coordinates>{coordinateList[0]};
     vector<Map::Coordinates> *temp = new vector<Map::Coordinates>;
     Map::Coordinates *source = new Map::Coordinates();
     Map::Coordinates *vertex1 = new Map::Coordinates();
     Map::Coordinates *vertex2 = new Map::Coordinates();
 
-    for(int i = 0; i < coordinateList.gps.size()/2+1; i++){
+    for(int i = 0; i < coordinateList.size()/2+1; i++){
         int x = i/2;
         if(i % 2 == 0){
-            *source = coordinateList.gps[x];
-            *vertex1 = coordinateList.gps[x+1];
-            *vertex2 = coordinateList.gps[coordinateList.gps.size()-x-1];
+            *source = coordinateList[x];
+            *vertex1 = coordinateList[x+1];
+            *vertex2 = coordinateList[coordinateList.size()-x-1];
         }else{
-            *source = coordinateList.gps[coordinateList.gps.size()-1-x];
-            *vertex1 = coordinateList.gps[coordinateList.gps.size()-2-x];
-            *vertex2 = coordinateList.gps[x+1];
+            *source = coordinateList[coordinateList.size()-1-x];
+            *vertex1 = coordinateList[coordinateList.size()-2-x];
+            *vertex2 = coordinateList[x+1];
         }
-        vector<Map::Coordinates> *temp = new vector<Map::Coordinates>(Autonomous::PathFinding::CreatePoints(*source,*vertex1,*vertex2,SUBDIVISION,file));
+        vector<Map::Coordinates> *temp = new vector<Map::Coordinates>(Autonomous::PathFinding::CreatePoints(*source,*vertex1,*vertex2,SUBDIVISION));
         *result = Concatenate(*result, *temp);
     }
     int magicNumber = 7;
-    *source = coordinateList.gps[magicNumber];
+    *source = coordinateList[magicNumber];
     for(int i = 0;i < magicNumber+1;i++){
-        *vertex1 = coordinateList.gps[coordinateList.gps.size()-magicNumber-i];
-        *vertex2 = coordinateList.gps[coordinateList.gps.size()-magicNumber-1-i];
-        vector<Map::Coordinates> *temp = new vector<Map::Coordinates>(Autonomous::PathFinding::CreatePoints(*source,*vertex1,*vertex2,SUBDIVISION,file));
+        *vertex1 = coordinateList[coordinateList.size()-magicNumber-i];
+        *vertex2 = coordinateList[coordinateList.size()-magicNumber-1-i];
+        vector<Map::Coordinates> *temp = new vector<Map::Coordinates>(Autonomous::PathFinding::CreatePoints(*source,*vertex1,*vertex2,SUBDIVISION));
         *result = Concatenate(*result, *temp);
     }
 

@@ -27,16 +27,6 @@ namespace Map{
 
     };
 
-    struct XY_Pair{
-        vector<Map::Coordinates> gps = {};
-        long double slopeIntercept[2];
-
-        XY_Pair(vector<Map::Coordinates> coordinates, long double slope = 0.L, long double y_intercept = 0.L){
-            this->gps = coordinates;
-            this->slopeIntercept[0] = slope;
-            this->slopeIntercept[1] = y_intercept;
-        }
-    };
 
     // Splits string into substrings separated by delimiter
     // return: Array of split substrings
@@ -85,9 +75,9 @@ class PathFinding{
 
     // Create more points inside polygon bounded by polygon's edges
     // return: List of all new points created within the boundary of the polygon with no slope value
-    static vector<Map::Coordinates> CreatePoints(Map::Coordinates source, Map::Coordinates boundary1 , Map::Coordinates boundary2, long double const SUBDIVISION, std::ofstream& file);
+    static vector<Map::Coordinates> CreatePoints(Map::Coordinates source, Map::Coordinates boundary1 , Map::Coordinates boundary2, long double const SUBDIVISION);
 
-    static void DrawMap(Map::XY_Pair coordinateList, long double const SUBDIVISION, std::ofstream& file);
+    static void DrawMap(vector<Map::Coordinates> coordinateList, long double const SUBDIVISION, std::ofstream& file);
 };
 
 class ObstacleDetection{

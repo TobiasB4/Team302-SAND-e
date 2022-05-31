@@ -2,7 +2,7 @@
 
 int main(int argc, char *argv[]){
     //Map::XY_Pair gps = Map::XY_Pair(Map::ExtractFile("T:\\Project SAND-e\\Team302-SAND-e\\robot\\include\\coordinates.txt"));
-    Map::XY_Pair gps = Map::XY_Pair(Map::ExtractFile("C:\\Users\\TobiB\\Documents\\Project_SAND-e\\Software\\robot\\include\\coordinates.txt"));
+    vector<Map::Coordinates> gps = Map::ExtractFile("C:\\Users\\TobiB\\Documents\\Project_SAND-e\\Software\\robot\\include\\coordinates.txt");
     //Map::XY_Pair gps = Map::XY_Pair(Map::ExtractFile(argv[1]));
 
     std::ofstream file;
