@@ -14,6 +14,11 @@ with open('base.txt','r') as f:
         y.append(float(lines[1]))
 
 plt.scatter(x,y,color = "red")
+with open('test.csv','w') as f:
+    writer = csv.writer(f)
+    for (xval,yval) in zip(x,y):
+        writer.writerow([xval,yval])
+
 with open('test.txt', 'r') as f:
     for line in f:
         lines = line.replace('\n','').replace('[','').replace(']','').replace(' ','').split(',')
@@ -23,10 +28,6 @@ with open('test.txt', 'r') as f:
             continue
         x.append(float(lines[0]))
         y.append(float(lines[1]))
-
-# with open('test.csv','w') as f:
-#     writer = csv.writer(f)
-#     for (xval,yval) in zip(x,y):
-#         writer.writerow([xval,yval])
 plt.plot(x,y,color="blue")
+
 plt.show()
