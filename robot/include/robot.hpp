@@ -81,10 +81,6 @@ class PathFinding{
     // return: Bearing from source to destination in degrees
     static long double CalcBearing(Map::Coordinates source, Map::Coordinates destination);
 
-    // Calculates the equation of the line between two points
-    // return: Array: y=mx+b => {m,b}
-    static void LineEquation(Map::Coordinates gps1, Map::Coordinates gps2, long double (&returnArr)[2]);
-
     // Finds the highest point along coast line and beach line
     // return: The index of the peak and -1 if not found
     static int FindPeak(vector<long double> height, bool reverse = false);

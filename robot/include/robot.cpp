@@ -111,13 +111,6 @@ long double Autonomous::PathFinding::CalcBearing(Map::Coordinates source, Map::C
     return bearing;
 }
 
-void Autonomous::PathFinding::LineEquation(Map::Coordinates gps1, Map::Coordinates gps2, long double (&returnArr)[2]){
-    // slope value
-    returnArr[0] = (gps2.latitude-gps1.latitude)/(gps2.longitude-gps1.longitude);
-    // y-intercept value
-    returnArr[1] = (-returnArr[0])*gps1.latitude+gps1.longitude;
-}
-
 int Autonomous::PathFinding::FindPeak(vector<long double> height, bool reverse){
 
     long double max = -(__LDBL_MAX__-10);
