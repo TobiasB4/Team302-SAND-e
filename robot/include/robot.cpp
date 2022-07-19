@@ -34,6 +34,17 @@ vector<Map::Coordinates> Map::ExtractFile(string pathName){
     return gps;
 }
 
+long double minimum(vector<Map::Coordinates> List, string sort_val = "lat"){
+    long double result = 
+    if(sort_val == "lat"){
+        
+    }else if (sort_val == "long"){
+
+    }else{
+        return -1;
+    }
+}
+
 void MainRobot::Robot::UpdateCurrentGPS(Map::Coordinates newGPS){
     this->GPSCurr = newGPS;
 }
@@ -111,32 +122,6 @@ long double Autonomous::PathFinding::CalcBearing(Map::Coordinates source, Map::C
     return bearing;
 }
 
-int Autonomous::PathFinding::FindPeak(vector<long double> height, bool reverse){
-
-    long double max = -(__LDBL_MAX__-10);
-    if(reverse){
-        int count = height.size();
-        for(vector<long double>::reverse_iterator it = height.rbegin(); it != height.rend(); it++){
-            if(*it < max){
-            return count;
-            }
-            max = *it;
-            count--;
-        }
-    }else{
-        int count = -1;
-        for(long double h : height){
-        if(h < max){
-            return count;
-        }
-        max = h;
-        count++;
-        }
-    }
-
-    return -1;
-}
-
 vector<Map::Coordinates> Autonomous::PathFinding::SubDivideLine(Map::Coordinates gps1, Map::Coordinates gps2, long double const SUBDIVISION){
     vector<Map::Coordinates> *result = new vector<Map::Coordinates>;
     result->push_back(gps1);
@@ -169,12 +154,6 @@ vector<Map::Coordinates> Autonomous::PathFinding::CreatePoints(Map::Coordinates 
     }
     *result = Concatenate(*result, *temp);
     delete temp;
-
-
-    // for(Map::Coordinates coordinate : *result){
-    //     file << std::setprecision(12)<< "[" << coordinate.latitude<< ", " << coordinate.longitude << "]\n";
-    // }
-
     return *result;
 }
 
@@ -222,38 +201,8 @@ vector<Map::Coordinates> Autonomous::PathFinding::CreatePoints(Map::Coordinates 
 
 
 void Autonomous::PathFinding::DrawMap(vector<Map::Coordinates> coordinateList, long double const SUBDIVISION, std::ofstream& file){
-    vector<Map::Coordinates> *result = new vector<Map::Coordinates>{coordinateList[0]};
-    vector<Map::Coordinates> *temp = new vector<Map::Coordinates>;
-    Map::Coordinates *source = new Map::Coordinates();
-    Map::Coordinates *vertex1 = new Map::Coordinates();
-    Map::Coordinates *vertex2 = new Map::Coordinates();
-    int end = coordinateList.size() - 1;
+    bool inside_polygon = false;
+    long double y_min =
+    //start at y_min
 
-    // Number of triangles needed is equal to the size of the list minus 2
-    for (int i = 0; i < coordinateList.size() - 2; i++){
-        int start = i / 2;
-        if( i % 2 == 0){
-            *source = coordinateList[start];
-            *vertex1 = coordinateList[start + 1];
-            *vertex2 = coordinateList[end - start];
-        }else{
-            *source = coordinateList[end - start];
-            *vertex1 = coordinateList[end - start - 1];
-            *vertex2 = coordinateList[start + 1];
-        }
-        vector<Map::Coordinates> *temp = new vector<Map::Coordinates>(Autonomous::PathFinding::CreatePoints(*source,*vertex1,*vertex2,SUBDIVISION));
-        *result = Concatenate(*result, *temp);
-    }
-
-    for(Map::Coordinates coordinate : *result){
-        if(!(coordinate.latitude < 48.L || coordinate.latitude > 50.L || coordinate.latitude == NULL) && !(coordinate.longitude < -125.L || coordinate.longitude > -122.L || coordinate.longitude == NULL)){
-            file << std::setprecision(16)<< "[" << coordinate.latitude<< ", " << coordinate.longitude << "]\n";
-        }
-    }
-
-    delete source;
-    delete vertex1;
-    delete vertex2;
-    delete result;
-    delete temp;
 }

@@ -39,6 +39,8 @@ namespace Map{
     // pathName: path to file to be extracted
     // return: Tuple of all x-coordinates and y-coordinates [x,y]
     vector<Map::Coordinates> ExtractFile(string pathName);
+
+    long double minimum(vector<Map::Coordinates> List, string sort_val = "lat");
 };
 
 namespace Autonomous{
@@ -80,10 +82,6 @@ class PathFinding{
     // destination: Second coordinate 
     // return: Bearing from source to destination in degrees
     static long double CalcBearing(Map::Coordinates source, Map::Coordinates destination);
-
-    // Finds the highest point along coast line and beach line
-    // return: The index of the peak and -1 if not found
-    static int FindPeak(vector<long double> height, bool reverse = false);
 
     // Divide line into subsections of length X meters apart from coordinate 1 to 2
     // gps1: First Coordinate
