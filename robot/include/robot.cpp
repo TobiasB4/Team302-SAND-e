@@ -34,15 +34,40 @@ vector<Map::Coordinates> Map::ExtractFile(string pathName){
     return gps;
 }
 
-long double minimum(vector<Map::Coordinates> List, string sort_val = "lat"){
-    long double result = 
-    if(sort_val == "lat"){
-        
-    }else if (sort_val == "long"){
-
-    }else{
-        return -1;
+long double Map::Minimum(vector<Map::Coordinates> List, string sort_val){
+    long double result = __LDBL_MAX__;
+    for(Map::Coordinates coordinate : List){
+        if(sort_val == "lat"){
+            if(coordinate.latitude < result){
+                result = coordinate.latitude;
+            }
+        }else if (sort_val == "long"){
+            if(coordinate.longitude < result){
+                result = coordinate.longitude;
+            }
+        }else{
+            return -1;
+        }
     }
+    return result;
+}
+
+long double Map::Maximum(vector<Map::Coordinates> List, string sort_val){
+    long double result = -(__LDBL_MAX__-10);
+    for(Map::Coordinates coordinate : List){
+        if(sort_val == "lat"){
+            if(coordinate.latitude > result){
+                result = coordinate.latitude;
+            }
+        }else if (sort_val == "long"){
+            if(coordinate.longitude > result){
+                result = coordinate.longitude;
+            }
+        }else{
+            return -1;
+        }
+    }
+    return result;
 }
 
 void MainRobot::Robot::UpdateCurrentGPS(Map::Coordinates newGPS){
@@ -201,8 +226,49 @@ vector<Map::Coordinates> Autonomous::PathFinding::CreatePoints(Map::Coordinates 
 
 
 void Autonomous::PathFinding::DrawMap(vector<Map::Coordinates> coordinateList, long double const SUBDIVISION, std::ofstream& file){
-    bool inside_polygon = false;
-    long double y_min =
-    //start at y_min
+    // Setup necessary storage and vars
+    vector<Map::Coordinates> *result = new vector<Map::Coordinates>{coordinateList[0]};
+    long double y_min = Map::Minimum(coordinateList, "long");
+    long double y_max = Map::Maximum(coordinateList, "long");
+    Map::Coordinates bottom = Map::Coordinates(coordinateList[0].latitude, y_min, 0);
+    Map::Coordinates top = Map::Coordinates(coordinateList[0].latitude, y_max, 0);
+    long double distance = Autonomous::PathFinding::CalcDistance(bottom,top);
+    int intervals = distance / SUBDIVISION;
+    long double dy = abs((y_max - y_min) / intervals);
+    vector<Map::Lines> *line_equations = new vector<Map::Lines>{Map::Lines(coordinateList[0],coordinateList[coordinateList.size()-1])};
+    vector<Map::Coordinates> *temp = new vector<Map::Coordinates>();
 
+    // Calculate all the line equations
+    for (int i = 0; i < coordinateList.size()-1; i++){
+        line_equations->push_back(Map::Lines(coordinateList[i], coordinateList[i + 1]));
+    }
+
+    for (int i = 1; i <= intervals;i++){
+        long double y_current = y_min + dy * i;
+        int count = 0;
+        for(Map::Lines line : *line_equations){
+            if(y_current>=line.y_min && y_current<=line.y_max){
+                if(count%4<2){
+                    result->push_back(Map::Coordinates((y_current-line.y_intercept)/line.slope,y_current,0));
+                }else{
+                    temp->push_back(Map::Coordinates((y_current - line.y_intercept) / line.slope, y_current, 0));
+                }
+                count++;
+            }
+        }
+    }
+
+    *result = Concatenate(*result, *temp);
+
+    for (Map::Coordinates coordinate : *result)
+    {
+        if (!(coordinate.latitude < 48.L || coordinate.latitude > 50.L || coordinate.latitude == NULL) && !(coordinate.longitude < -125.L || coordinate.longitude > -122.L || coordinate.longitude == NULL))
+        {
+            file << std::setprecision(16) << "[" << coordinate.latitude << ", " << coordinate.longitude << "]\n";
+        }
+    }
+
+    delete temp;
+    delete line_equations;
+    delete result;
 }

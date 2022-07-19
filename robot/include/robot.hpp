@@ -7,6 +7,7 @@
 #include <fstream>
 #include <algorithm>
 #include <iomanip>
+#include <float.h>
 using std::vector;
 using std::string;
 #define EARTH_RADIUS 6378.8 // in km
@@ -27,6 +28,31 @@ namespace Map{
 
     };
 
+    struct Lines{
+        long double slope;
+        long double y_intercept;
+        long double y_min;
+        long double y_max;
+
+        Lines() = default;
+        Lines(long double slope, long double y_intercept, long double y_min, long double y_max){
+            this->slope = slope;
+            this->y_intercept = y_intercept;
+            this->y_min = y_min;
+            this->y_max = y_max;
+        }
+        Lines(Map::Coordinates start, Map::Coordinates end){
+            long double x1 = start.latitude;
+            long double x2 = end.latitude;
+            long double y1 = start.longitude;
+            long double y2 = end.longitude;
+
+            this->slope = (y2 - y1) / (x2 - x1);
+            this->y_intercept = y2 - x2 * this->slope;
+            this->y_min = y2 <= y1 ? y2 : y1;
+            this->y_max = y2 >= y1 ? y2 : y1;
+        }
+    };
 
     // Splits string into substrings separated by delimiter
     // s: string to be split
@@ -40,7 +66,8 @@ namespace Map{
     // return: Tuple of all x-coordinates and y-coordinates [x,y]
     vector<Map::Coordinates> ExtractFile(string pathName);
 
-    long double minimum(vector<Map::Coordinates> List, string sort_val = "lat");
+    long double Minimum(vector<Map::Coordinates> List, string sort_val = "lat");
+    long double Maximum(vector<Map::Coordinates> List, string sort_val = "lat");
 };
 
 namespace Autonomous{

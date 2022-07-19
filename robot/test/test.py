@@ -28,6 +28,6 @@ with open('test.txt', 'r') as f:
             continue
         x.append(float(lines[0]))
         y.append(float(lines[1]))
-plt.plot(x,y,color="blue")
+plt.plot(x,y,color="green")
 
 plt.show()
