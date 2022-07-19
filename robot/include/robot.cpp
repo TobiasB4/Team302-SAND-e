@@ -178,32 +178,69 @@ vector<Map::Coordinates> Autonomous::PathFinding::CreatePoints(Map::Coordinates 
     return *result;
 }
 
+// void Autonomous::PathFinding::DrawMap(vector<Map::Coordinates> coordinateList, long double const SUBDIVISION, std::ofstream& file){
+//     vector<Map::Coordinates> *result = new vector<Map::Coordinates>{coordinateList[0]};
+//     vector<Map::Coordinates> *temp = new vector<Map::Coordinates>;
+//     Map::Coordinates *source = new Map::Coordinates();
+//     Map::Coordinates *vertex1 = new Map::Coordinates();
+//     Map::Coordinates *vertex2 = new Map::Coordinates();
+
+//     for(int i = 0; i < coordinateList.size()/2+1; i++){
+//         int x = i/2;
+//         if(i % 2 == 0){
+//             *source = coordinateList[x];
+//             *vertex1 = coordinateList[x+1];
+//             *vertex2 = coordinateList[coordinateList.size()-1-x];
+//         }else{
+//             *source = coordinateList[coordinateList.size()-1-x];
+//             *vertex1 = coordinateList[coordinateList.size()-2-x];
+//             *vertex2 = coordinateList[x+1];
+//         }
+//         vector<Map::Coordinates> *temp = new vector<Map::Coordinates>(Autonomous::PathFinding::CreatePoints(*source,*vertex1,*vertex2,SUBDIVISION));
+//         *result = Concatenate(*result, *temp);
+//     }
+//     int magicNumber = 7;
+//     *source = coordinateList[magicNumber];
+//     for(int i = 0;i < magicNumber+1;i++){
+//         *vertex1 = coordinateList[coordinateList.size()-magicNumber-i];
+//         *vertex2 = coordinateList[coordinateList.size()-magicNumber-1-i];
+//         vector<Map::Coordinates> *temp = new vector<Map::Coordinates>(Autonomous::PathFinding::CreatePoints(*source,*vertex1,*vertex2,SUBDIVISION));
+//         *result = Concatenate(*result, *temp);
+//     }
+
+//     for(Map::Coordinates coordinate : *result){
+//         if(!(coordinate.latitude < 48.L || coordinate.latitude > 50.L || coordinate.latitude == NULL) && !(coordinate.longitude < -125.L || coordinate.longitude > -122.L || coordinate.longitude == NULL)){
+//             file << std::setprecision(16)<< "[" << coordinate.latitude<< ", " << coordinate.longitude << "]\n";
+//         }
+//     }
+//     delete source;
+//     delete vertex1;
+//     delete vertex2;
+//     delete result;
+//     delete temp;
+// }
+
+
 void Autonomous::PathFinding::DrawMap(vector<Map::Coordinates> coordinateList, long double const SUBDIVISION, std::ofstream& file){
     vector<Map::Coordinates> *result = new vector<Map::Coordinates>{coordinateList[0]};
     vector<Map::Coordinates> *temp = new vector<Map::Coordinates>;
     Map::Coordinates *source = new Map::Coordinates();
     Map::Coordinates *vertex1 = new Map::Coordinates();
     Map::Coordinates *vertex2 = new Map::Coordinates();
+    int end = coordinateList.size() - 1;
 
-    for(int i = 0; i < coordinateList.size()/2+1; i++){
-        int x = i/2;
-        if(i % 2 == 0){
-            *source = coordinateList[x];
-            *vertex1 = coordinateList[x+1];
-            *vertex2 = coordinateList[coordinateList.size()-x-1];
+    // Number of triangles needed is equal to the size of the list minus 2
+    for (int i = 0; i < coordinateList.size() - 2; i++){
+        int start = i / 2;
+        if( i % 2 == 0){
+            *source = coordinateList[start];
+            *vertex1 = coordinateList[start + 1];
+            *vertex2 = coordinateList[end - start];
         }else{
-            *source = coordinateList[coordinateList.size()-1-x];
-            *vertex1 = coordinateList[coordinateList.size()-2-x];
-            *vertex2 = coordinateList[x+1];
+            *source = coordinateList[end - start];
+            *vertex1 = coordinateList[end - start - 1];
+            *vertex2 = coordinateList[start + 1];
         }
-        vector<Map::Coordinates> *temp = new vector<Map::Coordinates>(Autonomous::PathFinding::CreatePoints(*source,*vertex1,*vertex2,SUBDIVISION));
-        *result = Concatenate(*result, *temp);
-    }
-    int magicNumber = 7;
-    *source = coordinateList[magicNumber];
-    for(int i = 0;i < magicNumber+1;i++){
-        *vertex1 = coordinateList[coordinateList.size()-magicNumber-i];
-        *vertex2 = coordinateList[coordinateList.size()-magicNumber-1-i];
         vector<Map::Coordinates> *temp = new vector<Map::Coordinates>(Autonomous::PathFinding::CreatePoints(*source,*vertex1,*vertex2,SUBDIVISION));
         *result = Concatenate(*result, *temp);
     }
@@ -213,6 +250,7 @@ void Autonomous::PathFinding::DrawMap(vector<Map::Coordinates> coordinateList, l
             file << std::setprecision(16)<< "[" << coordinate.latitude<< ", " << coordinate.longitude << "]\n";
         }
     }
+
     delete source;
     delete vertex1;
     delete vertex2;
