@@ -236,7 +236,7 @@ void Autonomous::PathFinding::DrawMap(vector<Map::Coordinates> coordinateList, l
     int intervals = distance / SUBDIVISION;
     long double dy = abs((y_max - y_min) / intervals);
     vector<Map::Lines> *line_equations = new vector<Map::Lines>{Map::Lines(coordinateList[0],coordinateList[coordinateList.size()-1])};
-    vector<Map::Coordinates> *temp = new vector<Map::Coordinates>();
+    std::stack<Map::Coordinates> *temp = new std::stack<Map::Coordinates>();
 
     // Calculate all the line equations
     for (int i = 0; i < coordinateList.size()-1; i++){
@@ -251,7 +251,7 @@ void Autonomous::PathFinding::DrawMap(vector<Map::Coordinates> coordinateList, l
                 if(count%4<2){
                     result->push_back(Map::Coordinates((y_current-line.y_intercept)/line.slope,y_current,0));
                 }else{
-                    temp->push_back(Map::Coordinates((y_current - line.y_intercept) / line.slope, y_current, 0));
+                    temp->push(Map::Coordinates((y_current - line.y_intercept) / line.slope, y_current, 0));
                 }
                 count++;
             }

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <math.h>
 #include <vector>
+#include <stack>
 #include "template.hpp"
 #include <string>
 #include <fstream>
