@@ -67,8 +67,18 @@ namespace Map{
     // return: Tuple of all x-coordinates and y-coordinates [x,y]
     vector<Map::Coordinates> ExtractFile(string pathName);
 
-    long double Minimum(vector<Map::Coordinates> List, string sort_val = "lat");
-    long double Maximum(vector<Map::Coordinates> List, string sort_val = "lat");
+
+    // Find the minimum latitude or longitude
+    // list: Vector of coordinates to serach through
+    // sortVal: Either latitude("lat") or longitude("long")
+    // return: the minimum sortVal value in the vector
+    long double Minimum(vector<Map::Coordinates> list, string sortVal = "lat");
+
+    // Find the maximum latitude or longitude
+    // list: vector of coordinates to search through
+    // sortVal: Either latitude("lat") or longitude("long")
+    // return: the minimum sortVal value in the vector
+    long double Maximum(vector<Map::Coordinates> list, string sortVal = "lat");
 };
 
 namespace Autonomous{
@@ -110,21 +120,6 @@ class PathFinding{
     // destination: Second coordinate 
     // return: Bearing from source to destination in degrees
     static long double CalcBearing(Map::Coordinates source, Map::Coordinates destination);
-
-    // Divide line into subsections of length X meters apart from coordinate 1 to 2
-    // gps1: First Coordinate
-    // gps2: Second Coordinate
-    // x: Specified interval lengths of each subsection. (Must be a divisor of the distance between gps1 and gps2)
-    // return: list of (x,y) pairs along the line
-    static vector<Map::Coordinates> SubDivideLine(Map::Coordinates gps1, Map::Coordinates gps2, long double x);
-
-    // Create more points inside polygon bounded by polygon's edges
-    // source: Starting gps location
-    // boundary1: Bounding gps coordinate of upper location
-    // boundary2: Bounding gps coordinate of lower location
-    // SUBDIVISION: Length of subdivisions
-    // return: List of all new points created within the boundary of the polygon with no slope value
-    static vector<Map::Coordinates> CreatePoints(Map::Coordinates source, Map::Coordinates boundary1 , Map::Coordinates boundary2, long double const SUBDIVISION);
 
     // Draw the whole map with marked gps locations from origin to endpoint
     // coordinateList: Bounding coordinates
