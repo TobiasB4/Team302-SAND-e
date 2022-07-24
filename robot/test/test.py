@@ -1,9 +1,11 @@
+from codecs import latin_1_decode
 import matplotlib.pyplot as plt
 import csv
 import itertools
 x = []
 y = []
 with open('base.txt','r') as f:
+
     for line in f:
         lines = line.replace('\n','').replace('[','').replace(']','').replace(' ','').split(',')
         if(float(lines[0]) < 48. or float(lines[0]) > 50.):
@@ -16,6 +18,7 @@ with open('base.txt','r') as f:
 plt.scatter(x,y,color = "red")
 with open('test.csv','w') as f:
     writer = csv.writer(f)
+    writer.writerow(['latitude','longitude'])
     for (xval,yval) in zip(x,y):
         writer.writerow([xval,yval])
 
@@ -28,6 +31,6 @@ with open('test.txt', 'r') as f:
             continue
         x.append(float(lines[0]))
         y.append(float(lines[1]))
-plt.plot(x,y,color="blue")
+plt.plot(x,y,color="green")
 
 plt.show()

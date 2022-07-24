@@ -34,6 +34,42 @@ vector<Map::Coordinates> Map::ExtractFile(string pathName){
     return gps;
 }
 
+long double Map::Minimum(vector<Map::Coordinates> list, string sortVal){
+    long double result = __LDBL_MAX__;
+    for(Map::Coordinates coordinate : list){
+        if(sortVal == "lat"){
+            if(coordinate.latitude < result){
+                result = coordinate.latitude;
+            }
+        }else if (sortVal == "long"){
+            if(coordinate.longitude < result){
+                result = coordinate.longitude;
+            }
+        }else{
+            return -1;
+        }
+    }
+    return result;
+}
+
+long double Map::Maximum(vector<Map::Coordinates> list, string sortVal){
+    long double result = -(__LDBL_MAX__-10);
+    for(Map::Coordinates coordinate : list){
+        if(sortVal == "lat"){
+            if(coordinate.latitude > result){
+                result = coordinate.latitude;
+            }
+        }else if (sortVal == "long"){
+            if(coordinate.longitude > result){
+                result = coordinate.longitude;
+            }
+        }else{
+            return -1;
+        }
+    }
+    return result;
+}
+
 void MainRobot::Robot::UpdateCurrentGPS(Map::Coordinates newGPS){
     this->GPSCurr = newGPS;
 }
@@ -111,120 +147,51 @@ long double Autonomous::PathFinding::CalcBearing(Map::Coordinates source, Map::C
     return bearing;
 }
 
-void Autonomous::PathFinding::LineEquation(Map::Coordinates gps1, Map::Coordinates gps2, long double (&returnArr)[2]){
-    // slope value
-    returnArr[0] = (gps2.latitude-gps1.latitude)/(gps2.longitude-gps1.longitude);
-    // y-intercept value
-    returnArr[1] = (-returnArr[0])*gps1.latitude+gps1.longitude;
-}
+void Autonomous::PathFinding::DrawMap(vector<Map::Coordinates> coordinateList, long double const SUBDIVISION, std::ofstream& file){
+    // Setup necessary storage and vars
+    vector<Map::Coordinates> *result = new vector<Map::Coordinates>{coordinateList[0]};
+    long double y_min = Map::Minimum(coordinateList, "long");
+    long double y_max = Map::Maximum(coordinateList, "long");
+    Map::Coordinates bottom = Map::Coordinates(coordinateList[0].latitude, y_min, 0);
+    Map::Coordinates top = Map::Coordinates(coordinateList[0].latitude, y_max, 0);
+    long double distance = Autonomous::PathFinding::CalcDistance(bottom,top);
+    int intervals = distance / SUBDIVISION;
+    // Change in y every subdivision
+    long double dy = abs((y_max - y_min) / intervals);
+    vector<Map::Lines> *line_equations = new vector<Map::Lines>{Map::Lines(coordinateList[0],coordinateList[coordinateList.size()-1])};
+    std::stack<Map::Coordinates> *temp = new std::stack<Map::Coordinates>();
 
-int Autonomous::PathFinding::FindPeak(vector<long double> height, bool reverse){
+    // Calculate all the line equations
+    for (int i = 0; i < coordinateList.size()-1; i++){
+        line_equations->push_back(Map::Lines(coordinateList[i], coordinateList[i + 1]));
+    }
 
-    long double max = -(__LDBL_MAX__-10);
-    if(reverse){
-        int count = height.size();
-        for(vector<long double>::reverse_iterator it = height.rbegin(); it != height.rend(); it++){
-            if(*it < max){
-            return count;
+    for (int i = 1; i <= intervals;i++){
+        long double y_current = y_min + dy * i;
+        int count = 0;
+        for(Map::Lines line : *line_equations){
+            if(y_current>=line.y_min && y_current<=line.y_max){
+                if(count%4<2){
+                    result->push_back(Map::Coordinates((y_current-line.y_intercept)/line.slope,y_current,0));
+                }else{
+                    temp->push(Map::Coordinates((y_current - line.y_intercept) / line.slope, y_current, 0));
+                }
+                count++;
             }
-            max = *it;
-            count--;
-        }
-    }else{
-        int count = -1;
-        for(long double h : height){
-        if(h < max){
-            return count;
-        }
-        max = h;
-        count++;
         }
     }
 
-    return -1;
-}
-
-vector<Map::Coordinates> Autonomous::PathFinding::SubDivideLine(Map::Coordinates gps1, Map::Coordinates gps2, long double const SUBDIVISION){
-    vector<Map::Coordinates> *result = new vector<Map::Coordinates>;
-    result->push_back(gps1);
-    vector<Map::Coordinates> &access = *result;
-    long double const bearing = Autonomous::PathFinding::CalcBearing(gps1, gps2);
-
-    //Create all the points along the line gps1->gps2
-    int count = 0;
-    for (long double distance = Autonomous::PathFinding::CalcDistance(gps1, gps2); distance > 0; distance-=SUBDIVISION, count++){
-        Map::Coordinates temp = Map::Coordinates(access[count].latitude, access[count].longitude, 0);
-        Map::Coordinates newCoord = Autonomous::PathFinding::CalcPosition(temp, SUBDIVISION, bearing);     
-        result->push_back(newCoord);
-    }
-
-    //get rid of first point
-    result->erase(result->begin());
-    return *result;
-}
-
-vector<Map::Coordinates> Autonomous::PathFinding::CreatePoints(Map::Coordinates source, Map::Coordinates vertex1, Map::Coordinates vertex2, long double const SUBDIVISION, std::ofstream& file){
-    vector<Map::Coordinates> *result = new vector<Map::Coordinates>;
-    Map::XY_Pair fill = Map::XY_Pair({vertex1, vertex2});
-    Map::XY_Pair sourceLine = Autonomous::PathFinding::SubDivideLine(source,vertex1, SUBDIVISION);
-
-    
-
-    Map::XY_Pair boundaryLine = Autonomous::PathFinding::SubDivideLine(source, vertex2, Autonomous::PathFinding::CalcDistance(source,vertex2)/sourceLine.gps.size());
-    vector<Map::Coordinates> *temp = new vector<Map::Coordinates>;
-    for(int i = 1; i < boundaryLine.gps.size(); i++){
-        temp->push_back(sourceLine.gps[i]);
-        temp->push_back(boundaryLine.gps[i]);
-    }
     *result = Concatenate(*result, *temp);
+
+    for (Map::Coordinates coordinate : *result)
+    {
+        if (!(coordinate.latitude < 48.L || coordinate.latitude > 50.L || coordinate.latitude == NULL) && !(coordinate.longitude < -125.L || coordinate.longitude > -122.L || coordinate.longitude == NULL))
+        {
+            file << std::setprecision(16) << "[" << coordinate.latitude << ", " << coordinate.longitude << "]\n";
+        }
+    }
+
     delete temp;
-
-
-    // for(Map::Coordinates coordinate : *result){
-    //     file << std::setprecision(12)<< "[" << coordinate.latitude<< ", " << coordinate.longitude << "]\n";
-    // }
-
-    return *result;
-}
-
-void Autonomous::PathFinding::DrawMap(Map::XY_Pair coordinateList, long double const SUBDIVISION, std::ofstream& file){
-    vector<Map::Coordinates> *result = new vector<Map::Coordinates>{coordinateList.gps[0]};
-    vector<Map::Coordinates> *temp = new vector<Map::Coordinates>;
-    Map::Coordinates *source = new Map::Coordinates();
-    Map::Coordinates *vertex1 = new Map::Coordinates();
-    Map::Coordinates *vertex2 = new Map::Coordinates();
-
-    for(int i = 0; i < coordinateList.gps.size()/2+1; i++){
-        int x = i/2;
-        if(i % 2 == 0){
-            *source = coordinateList.gps[x];
-            *vertex1 = coordinateList.gps[x+1];
-            *vertex2 = coordinateList.gps[coordinateList.gps.size()-x-1];
-        }else{
-            *source = coordinateList.gps[coordinateList.gps.size()-1-x];
-            *vertex1 = coordinateList.gps[coordinateList.gps.size()-2-x];
-            *vertex2 = coordinateList.gps[x+1];
-        }
-        vector<Map::Coordinates> *temp = new vector<Map::Coordinates>(Autonomous::PathFinding::CreatePoints(*source,*vertex1,*vertex2,SUBDIVISION,file));
-        *result = Concatenate(*result, *temp);
-    }
-    int magicNumber = 7;
-    *source = coordinateList.gps[magicNumber];
-    for(int i = 0;i < magicNumber+1;i++){
-        *vertex1 = coordinateList.gps[coordinateList.gps.size()-magicNumber-i];
-        *vertex2 = coordinateList.gps[coordinateList.gps.size()-magicNumber-1-i];
-        vector<Map::Coordinates> *temp = new vector<Map::Coordinates>(Autonomous::PathFinding::CreatePoints(*source,*vertex1,*vertex2,SUBDIVISION,file));
-        *result = Concatenate(*result, *temp);
-    }
-
-    for(Map::Coordinates coordinate : *result){
-        if(!(coordinate.latitude < 48.L || coordinate.latitude > 50.L || coordinate.latitude == NULL) && !(coordinate.longitude < -125.L || coordinate.longitude > -122.L || coordinate.longitude == NULL)){
-            file << std::setprecision(16)<< "[" << coordinate.latitude<< ", " << coordinate.longitude << "]\n";
-        }
-    }
-    delete source;
-    delete vertex1;
-    delete vertex2;
+    delete line_equations;
     delete result;
-    delete temp;
 }
