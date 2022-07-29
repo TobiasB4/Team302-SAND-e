@@ -1,7 +1,6 @@
 #include "pathfinding.hpp"
 
-long double Autonomous::PathFinding::CalcDistance(Autonomous::Map::Coordinates gps1, Autonomous::Map::Coordinates gps2)
-{
+long double Autonomous::PathFinding::CalcDistance(Autonomous::Map::Coordinates gps1, Autonomous::Map::Coordinates gps2) {
     long double lat1 = ToRadian(gps1.latitude);
     long double long1 = ToRadian(gps1.longitude);
     long double lat2 = ToRadian(gps2.latitude);
@@ -22,8 +21,7 @@ long double Autonomous::PathFinding::CalcDistance(Autonomous::Map::Coordinates g
     return abs(distance);
 }
 
-Autonomous::Map::Coordinates Autonomous::PathFinding::CalcPosition(Autonomous::Map::Coordinates source, long double range, long double bearing)
-{
+Autonomous::Map::Coordinates Autonomous::PathFinding::CalcPosition(Autonomous::Map::Coordinates source, long double range, long double bearing) {
     long double latA = Autonomous::PathFinding::ToRadian(source.latitude);
     long double lonA = Autonomous::PathFinding::ToRadian(source.longitude);
     long double angularDistance = range / EARTH_RADIUS / 1000;
@@ -46,8 +44,7 @@ Autonomous::Map::Coordinates Autonomous::PathFinding::CalcPosition(Autonomous::M
         source.altitude);
 }
 
-long double Autonomous::PathFinding::CalcBearing(Autonomous::Map::Coordinates source, Autonomous::Map::Coordinates destination)
-{
+long double Autonomous::PathFinding::CalcBearing(Autonomous::Map::Coordinates source, Autonomous::Map::Coordinates destination) {
     long double theta1 = ToRadian(source.latitude);
     long double theta2 = ToRadian(destination.latitude);
     long double delta1 = ToRadian(destination.latitude - source.latitude);
@@ -62,8 +59,7 @@ long double Autonomous::PathFinding::CalcBearing(Autonomous::Map::Coordinates so
     return bearing;
 }
 
-void Autonomous::PathFinding::DrawMap(vector<Autonomous::Map::Coordinates> coordinateList, long double const INTERVAL_DIVISION, std::ofstream &file)
-{
+void Autonomous::PathFinding::DrawMap(vector<Autonomous::Map::Coordinates> coordinateList, long double const INTERVAL_DIVISION, std::ofstream &file) {
     // Setup necessary storage and vars
     vector<Autonomous::Map::Coordinates> *result = new vector<Autonomous::Map::Coordinates>{coordinateList[0]};
     long double y_min = Autonomous::Map::Minimum(coordinateList);
@@ -78,25 +74,18 @@ void Autonomous::PathFinding::DrawMap(vector<Autonomous::Map::Coordinates> coord
     std::stack<Autonomous::Map::Coordinates> *temp = new std::stack<Autonomous::Map::Coordinates>();
 
     // Calculate all the line equations
-    for (int i = 0; i < coordinateList.size() - 1; i++)
-    {
+    for (int i = 0; i < coordinateList.size() - 1; i++) {
         line_equations->push_back(Autonomous::Map::Lines(coordinateList[i], coordinateList[i + 1]));
     }
 
-    for (int i = 1; i <= intervals; i++)
-    {
+    for (int i = 1; i <= intervals; i++) {
         long double y_current = y_min + dy * i;
         int count = 0;
-        for (Autonomous::Map::Lines line : *line_equations)
-        {
-            if (y_current >= line.y_min && y_current <= line.y_max)
-            {
-                if (count % 4 < 2)
-                {
+        for (Autonomous::Map::Lines line : *line_equations) {
+            if (y_current >= line.y_min && y_current <= line.y_max) {
+                if (count % 4 < 2) {
                     result->push_back(Autonomous::Map::Coordinates((y_current - line.y_intercept) / line.slope, y_current, 0));
-                }
-                else
-                {
+                } else {
                     temp->push(Autonomous::Map::Coordinates((y_current - line.y_intercept) / line.slope, y_current, 0));
                 }
                 count++;
@@ -106,10 +95,8 @@ void Autonomous::PathFinding::DrawMap(vector<Autonomous::Map::Coordinates> coord
 
     *result = Concatenate(*result, *temp);
 
-    for (Autonomous::Map::Coordinates coordinate : *result)
-    {
-        if (!(coordinate.latitude < 48.L || coordinate.latitude > 50.L || coordinate.latitude == NULL) && !(coordinate.longitude < -125.L || coordinate.longitude > -122.L || coordinate.longitude == NULL))
-        {
+    for (Autonomous::Map::Coordinates coordinate : *result) {
+        if (!(coordinate.latitude < 48.L || coordinate.latitude > 50.L || coordinate.latitude == NULL) && !(coordinate.longitude < -125.L || coordinate.longitude > -122.L || coordinate.longitude == NULL)) {
             file << std::setprecision(16) << "[" << coordinate.latitude << ", " << coordinate.longitude << "]\n";
         }
     }

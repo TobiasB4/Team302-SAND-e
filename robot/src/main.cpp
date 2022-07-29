@@ -1,9 +1,8 @@
-#include "../include/robot.hpp"
 #include "../include/map.hpp"
 #include "../include/pathfinding.hpp"
+#include "../include/robot.hpp"
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     vector<string> arguments = Autonomous::Map::ReadArgs(argc - 1, argv + 1);
     vector<Autonomous::Map::Coordinates> gps = Autonomous::Map::ExtractFile(arguments[0] + "\\coordinates.txt");
     std::ofstream file;
