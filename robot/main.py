@@ -32,6 +32,13 @@ with open('base.txt','r') as f:
 targetLat = latitudes[posItem]
 targetLong = longitudes[posItem]
 
+# TODO: calibration sequence for IMU and cardinal direction
+
+while(calibration == 0):
+    calibration = 1
+# Check that IMU says robot is going in a straight line
+# Record GPS points, take start and end gps points of isstraight and get cardinal direction
+
 # -------------------------------------------------------------------------------------------------------
 #
 # Control loop: Generator & Output
