@@ -197,7 +197,7 @@ body{
     cursor: pointer;
 }
 
-#menu .items li:nth-child(1){
+#menu .items a:nth-child(2) li{
     border-left: 4px solid #fff;
 }
 
@@ -212,12 +212,14 @@ body{
 }
 
 #menu .items li:hover i,
-#menu .items li:hover a{
+#menu .items a:hover li{
     color: #F3F4F6;
 }
 
-#menu .items li a{
+#menu .items a{
     text-decoration: none;
+}
+#menu .items a li{
     color: #3a3f47;
     font-weight: 300px;
     transition: 0.3 ease;

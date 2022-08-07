@@ -22,16 +22,21 @@
 
         <div class="items">
             <ul>
-                <li>
-                    <i class="fa-solid fa-house"></i><a href="#">Home</a>
-                </li>
-                <li>
-                    <i class="fa-solid fa-table-columns"></i><a href="#">Dashboard</a>
-                </li>
-                <li>
-                    <i class="fa-solid fa-circle-info"></i><a href="#">About</a>
-                </li>
-
+                <a href="#">
+                    <li>
+                        <i class="fa-solid fa-house"></i>Home
+                    </li>
+                </a>
+                <a href="./dashboard.html">
+                    <li>
+                        <i class="fa-solid fa-table-columns"></i>Dashboard
+                    </li>
+                </a>
+                <a href="#">
+                    <li>
+                        <i class="fa-solid fa-circle-info"></i>About
+                    </li>
+                </a>
             </ul>
         </div>
     </section>
@@ -86,12 +91,12 @@
                     <b>Vehicle Status</b>
                     <table>
                         <tr>
-                            <td>Battery</td>
-                            <td>Velocity/Acceleration</td>
+                            <td id="velocity">Velocity</td>
+                            <td id="acceleration">Acceleration</td>
                         </tr>
                         <tr>
-                            <td>Coordinates</td>
-                            <td>Obstacle Detection</td>
+                            <td id="current-lat">Latitude</td>
+                            <td id="current-lng">Longitude</td>
                         </tr>
                     </table>
                 </div>
